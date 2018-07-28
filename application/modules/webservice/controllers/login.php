@@ -61,7 +61,7 @@ class Login extends CI_Controller
 							$this->login_model->update_user_webservice($response['id'], $time, $token);
 							
 							$result['st'] = 1;
-							$result['msg'] = 'Registration done successfully. Verification email is sent to your registered Email ID. Please verify your account to login.';
+							$result['msg'] = 'Successfully Logged In.';
 							$result['id'] = $user_details['id'];
 							$result['tn'] = $token;
 							$result['n'] = $user_details['first_name'] . " ". $user_details['last_name'];
@@ -93,6 +93,21 @@ class Login extends CI_Controller
 		{
 			if ($this->input->server('REQUEST_METHOD') === 'POST')
 			{
+				if (!$this->input->post()){
+					$error = array(			
+									"un" => "Please enter the username",
+									"pwd" => "Please enter the password",
+									"ct" => "Please enter the mobile",
+									"mail" => "Please enter the email",
+									"addr" => "Please enter the city",
+									"stat" => "Please enter the state",
+									"t" => "Please enter the type",
+									"fcmt" => "Please enter the fcmt",
+								);
+					$result = array( 'st'=> 0 , 'msg'=> 'validation error' , 'errors'=> $error);
+					echo $response = json_encode($result);
+					return TRUE;
+				}
 				$this->form_validation->set_rules('un', 'username','trim|required|is_unique[users.username]');
 				$this->form_validation->set_rules('pwd', 'password', 'trim|required'); 
 				$this->form_validation->set_rules('ct', 'mobile', 'trim|required|is_unique[users.phone_no]'); 	
