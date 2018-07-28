@@ -15,19 +15,22 @@
 		 * @return      Array
 		 */
 		
-		function get_user_by_auth($user_name, $password)
+		function get_user_by_auth($username, $password, $login_type)
 		{ 
 			$this->db->select('*');
-			$wher = "(email='$user_name' OR unique_login_name='$user_name')";
-			$this->db->where($wher);
-			$this->db->where('password', $password);
-			//$this->db->where_in('user_type', array('1','2','3'));
-			$this->db->where('user_type', 3);
-			//$this->db->where('status', 1);
-			$query = $this->db->get('admin_users');
-			if($query->num_rows == 1){
-				return $query->row_array();
+			$where = "(email_id='$username' OR username='$username')";
+			$this->db->where($where);
+			if(empty($login_type)){
+				$this->db->where('password', $password);
 			}
+			$this->db->where('login_type', $login_type);
+			$this->db->where('is_email_verified', 1);
+			$this->db->where('is_active', 1);
+			$query = $this->db->get('users');
+			return $query->row_array();
+			//if($query->num_rows == 1){
+				//return $query->row_array();
+			///}
 		}
 		
 		/**
@@ -85,13 +88,13 @@
 		 * @param       $id, $time, $token
 		 * @return      Void
 		 */
-		public function update_user_webservice($id, $time, $token)
+		public function update_user_webservice($id, $time, $app_token)
 		{	
 			//$this->db->set('login_count', 'login_count+1', FALSE);
 			$this->db->set('last_login_time', $time);
-			$this->db->set('app_token', $token);
+			$this->db->set('app_token', $app_token);
 			$this->db->where('id',$id);			
-			return $this->db->update('admin_users');
+			return $this->db->update('users');
 		}
 		
 		/**
@@ -117,10 +120,125 @@
 		public function check_user_token($id)
 		{
 			$this->db->select('*');
-			$this->db->from('admin_users');
+			$this->db->from('users');
 			$this->db->where('id', $id);			
 			$query = $this->db->get();				
 			return $query->row_array();			
+		}
+		
+		public function get_user_by_email($mailid)
+		{			
+			$this->db->select('users.id, users.email_id, users.is_email_verified, users.is_active');
+			$this->db->from('users');
+			$this->db->where("users.email_id='".$mailid."' AND users.is_deleted = 0");	
+			$selectResponse = $this->db->get();
+			return $selectResponse->row_array(); 
+		}
+		
+		public function get_user_by_mobile($mobile)
+		{			
+			$this->db->select('users.id, users.email_id, users.is_email_verified, users.is_active');
+			$this->db->from('users');
+			$this->db->where("users.phone_no='".$mobile."' AND users.is_deleted = 0");	
+			$selectResponse = $this->db->get();
+			return $selectResponse->row_array(); 
+		}
+		
+		public function get_user_by_username($username)
+		{			
+			$this->db->select('users.id, users.email_id, users.is_email_verified, users.is_active');
+			$this->db->from('users');
+			$this->db->where("users.username='".$username."' AND users.is_deleted = 0");	
+			$selectResponse = $this->db->get();
+			return $selectResponse->row_array(); 
+		}
+				
+		public function get_user_by_token($token)
+		{			
+			$this->db->select('*');
+			$this->db->from('users');
+			$this->db->where("users.app_token='".$token."' AND users.is_deleted = 0");	
+			$selectResponse = $this->db->get();
+			return $selectResponse->row_array(); 
+		}
+		
+		public function get_user($id)
+		{
+		 	$this->db->select('*');
+		 	$this->db->from('users u');
+		 	$this->db->where('u.id',$id);
+		 	//$this->db->where('u.is_active',1);
+		 	$this->db->where('u.is_deleted',0);
+		 	$query = $this->db->get();
+		 	$res = $query->row_array();
+		 	return $res;
+		}
+		 
+		public function set_user()
+		{
+		 	$date = date('Y-m-d H:i:s');
+				
+			$data = array(
+						    'created' => $date,
+							'modified' => $date,
+							'email_id' => $this->input->post('mail'),
+						  	'password' => md5($this->input->post('pwd')),
+							'last_login_time' => $date,
+							'app_token' => '',
+							//'app_expire_time' => $date,
+							//'forgot_pwd_token' => '',
+							//'forgot_pwd_expire_time' => $date,
+							'username' => $this->input->post('un'),
+							'phone_no' => $this->input->post('ct'),
+							//'country' => $this->input->post('country'),
+							'state' => $this->input->post('stat'),
+							'city' => $this->input->post('addr'),
+							'login_type' => $this->input->post('v') ? $this->input->post('v') : 0,
+							'fcmt' => $this->input->post('fcmt'),
+							'is_email_verified' => 1,
+							'is_active' => 1
+						);
+			$this->db->insert('users',$data);
+			
+			$insert_id = $this->db->insert_id();
+ 
+			return $insert_id;
+		}
+		
+		public function update_user()
+		{
+			$data = array(
+							'modified' => date('Y-m-d H:i:s'),				
+							'name' => $name,
+							'profile_image' => $received_image_name,
+							'phone_no' => $contact_number,
+							'country' => $country,
+							'state' => $state,
+							'city' => $city,
+							'gender' => $gender,
+							'unit_type' => $unit_type
+						);
+			$this->db->where('user_id',$user_id);		
+			return $this->db->update('profiles', $data);
+		}
+		
+		public function check_user_old_password($id, $password)
+		{
+			$this->db->select('*');
+			$this->db->from('users');
+			$this->db->where('id', $id);			
+			$this->db->where('password', md5($password));			
+			$query = $this->db->get();				
+			return $query->row_array();			
+		}
+				
+		public function update_password($id, $password)
+		{
+			$data = array(
+			'password' => md5($password)
+			);
+			$this->db->where('id',$id);			
+			return $this->db->update('users',$data);		
 		}
 		
 	}

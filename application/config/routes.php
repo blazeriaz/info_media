@@ -66,12 +66,12 @@ $route[SITE_ADMIN_URI.'/email_templates'] = 'admin/email_templates/index';
 $route[SITE_ADMIN_URI.'/email_templates/(:num)'] = 'admin/email_templates/index/$1';
 $route[SITE_ADMIN_URI.'/email_templates/edit/(:num)'] = 'admin/email_templates/edit/$1';
 
-$route[SITE_ADMIN_URI.'/pnl_download/(:any)'] = 'admin/patient_note_list/download_document/$1';
-
 // Front End
 
 // Web Services
 
-$route['webservice/login'] = 'webservice/login/app_login';
+$route['webservice/login'] = 'webservice/login/login';
+$route['webservice/register'] = 'webservice/login/register';
+$route['webservice/change-password'] = 'webservice/login/change_password';
 $route['webservice/device_token'] = 'webservice/login/device_token';
 $route['webservice/dashboard'] = 'webservice/dashboard';
