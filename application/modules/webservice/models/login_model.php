@@ -28,9 +28,6 @@
 			$this->db->where('is_active', 1);
 			$query = $this->db->get('users');
 			return $query->row_array();
-			//if($query->num_rows == 1){
-				//return $query->row_array();
-			///}
 		}
 		
 		/**

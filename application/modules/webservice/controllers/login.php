@@ -60,14 +60,6 @@ class Login extends CI_Controller
 							$token = generate_token($response['id']);							
 							$this->login_model->update_user_webservice($response['id'], $time, $token);
 							
-							/*$responseData = array();
-							$responseData['id'] = $user_details['id'];
-							$responseData['tn'] = $token;
-							$responseData['n'] = $user_details['first_name'] . " ". $user_details['last_name'];
-							$responseData['un'] = $user_details['username'];
-							$responseData['mail'] = $user_details['email_id'];
-							$result = array( 'st'=> 1, 'msg'=>'Successfully Logged in', 'data'=> $responseData);*/
-							
 							$result['st'] = 1;
 							$result['msg'] = 'Registration done successfully. Verification email is sent to your registered Email ID. Please verify your account to login.';
 							$result['id'] = $user_details['id'];
@@ -149,13 +141,6 @@ class Login extends CI_Controller
 								$time = date('Y-m-d H:i:s'); 
 								$token = generate_token($user_datas['id']);
 								$this->login_model->update_user_webservice($user_datas['id'], $time, $token);	
-								/*$responseData = array();
-								$responseData['id'] = $user_datas['id'];
-								$responseData['tn'] = $token;
-								$responseData['n'] = $user_datas['first_name'] . " ". $user_datas['last_name'];
-								$responseData['un'] = $user_datas['username'];
-								$responseData['mail'] = $user_datas['email_id'];							
-								$result = array( 'st'=> 1 , 'msg'=> 'Registration done successfully. Verification email is sent to your registered Email ID. Please verify your account to login.', 'data'=> $responseData) ;*/
 								$result['st'] = 1;
 								$result['msg'] = 'Registration done successfully. Verification email is sent to your registered Email ID. Please verify your account to login.';
 								$result['id'] = $user_datas['id'];
@@ -220,28 +205,12 @@ class Login extends CI_Controller
 				}
 				$this->form_validation->set_rules('opwd', 'old password','trim|required');
 				$this->form_validation->set_rules('pwd', 'password', 'trim|required'); 		
+				$this->form_validation->set_rules('id', 'user id', 'trim|required'); 		
 				if ($this->form_validation->run())
 				{					
 					$new_pass = $this->input->post('pwd');
 					$current_pass = $this->input->post('opwd');					
 					$user_id = $this->input->post('id');
-					
-					/*if($new_pass != $current_pass)
-					{
-						$user_info = $this->login_model->get_user_by_token($token);
-						$user_password = $this->login_model->check_user_old_password($user_info['id'], $current_pass); 
-						if(!empty($user_password)){
-							$this->login_model->update_password($user_info['id'], $new_pass);
-							$result = array('success'=> 1 , 'message'=> 'Your account password has been changed successfully. Please login to continue','current_date' => date('Y-m-d'));
-						}
-						else{
-							$result = array('success'=> 0 , 'message'=> "Your current password is wrong",'current_date' => date('Y-m-d'));
-						}
-					}
-					else
-					{
-						$result = array('success'=> 0 , 'message'=> "Your current password and new password should not be same",'current_date' => date('Y-m-d'));
-					}*/
 					
 					$response = $this->check_user_token($user_id, $token, 'users' ); 
 					switch(trim($response))
