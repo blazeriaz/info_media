@@ -78,7 +78,7 @@ class Users extends Admin_Controller
 		}
 
 		$fields = 'id,username,first_name,last_name,email_id,know_about_us,
-					skype_id,phone_no,address,country,city,status,created,exam_date,exam_center';
+					skype_id,phone_no,address,country,city,status,created,is_active';
 		$data['total_rows'] = $config['total_rows'] = $this->base_model->get_advance_list('users', $join_tables, $fields, $where, 'num_rows','','','id');
 		$data['users'] = $this->base_model->get_advance_list('users', '', $fields, $where, '', $sorting_field, $sorting_order, 'id', $limit_start, $limit_end);
 
@@ -346,7 +346,7 @@ public function randPass($length, $strength=8) {
 		$data['users'] = $getValues;
 		$data['cities'] = $this->base_model->getArrayList('cities','','','id,name');
 		
-		$conditions = array('status = 1 and country_id ='.$getValues['country']);
+		$conditions = array('status = 1 and state_id ='.$getValues['country']);
 		$data['cities'] = $this->base_model->getArrayList('cities',$conditions,'','id,name');	
 		$data['main_content'] = 'users/edit';
 		$data['page_title']  = 'users'; 

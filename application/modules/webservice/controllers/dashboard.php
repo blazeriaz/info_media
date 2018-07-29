@@ -36,7 +36,7 @@ class Dashboard extends CI_Controller
 						case 'SUCCESS' :
 							$user_datas = $this->dashboard_model->check_user_token($user_id);
 							if($user_datas['status'] == 0){
-								$result = array('success'=> 2, 'message'=> 'Your account not yet activated. Please active via you entered email address or contact admin for account activation','current_date' => date('Y-m-d'));
+								$result = array('st'=> 2, 'msg'=> 'Your account not yet activated. Please active via you entered email address or contact admin for account activation','current_date' => date('Y-m-d'));
 							}else{																					
 								$responseData = array();
 								
@@ -47,20 +47,20 @@ class Dashboard extends CI_Controller
 								/*********** Response Data END *************/
 								
 								if(!empty($responseData)){
-									$result = array( 'success'=> 1, 'message'=>'success', 'current_date' => date('Y-m-d'),'data'=> $responseData);
+									$result = array( 'st'=> 1, 'msg'=>'success', 'data'=> $responseData);
 								}else{
-									$result = array( 'success'=> 0, 'message'=>'No records found','current_date' => date('Y-m-d'));
+									$result = array( 'st'=> 0, 'msg'=>'No records found','current_date' => date('Y-m-d'));
 								}								
 							}
 						  	break;						
 						case 'INVALID_USER_ID' :
-							$result = array('success'=> 2, 'message'=> 'Invalid user','current_date' => date('Y-m-d'));
+							$result = array('st'=> 2, 'msg'=> 'Invalid user','current_date' => date('Y-m-d'));
 							break;
 						case 'TOKEN_EXPIRED' :
-							$result = array('success'=> 2,'message'=>'Token Expired','current_date' => date('Y-m-d'));
+							$result = array('st'=> 2,'msg'=>'Token Expired','current_date' => date('Y-m-d'));
 							break;
 						case 'TOKEN_ERROR' :
-							$result = array('success'=> 2,'message'=>'Sorry! Your current session has been expired. Please login to continue','current_date' => date('Y-m-d'));
+							$result = array('st'=> 2,'msg'=>'Sorry! Your current session has been expired. Please login to continue','current_date' => date('Y-m-d'));
 							break;
 						default : 
 							break;  
@@ -68,12 +68,12 @@ class Dashboard extends CI_Controller
 				}
 				else
 				{
-					$result = array('success'=> 0 , 'message'=> 'validation error' , 'current_date' => date('Y-m-d'),'errors'=> $this->form_validation->error_array());
+					$result = array('st'=> 0 , 'msg'=> 'validation error' , 'current_date' => date('Y-m-d'),'errors'=> $this->form_validation->error_array());
 				}
 			}
 			else
 			{
-				$result = array( 'success'=> 0 , 'message'=> 'method does not post','current_date' => date('Y-m-d') ) ;  
+				$result = array( 'st'=> 0 , 'msg'=> 'method does not post','current_date' => date('Y-m-d') ) ;  
 			} 
 			echo $response = json_encode($result);
 			return TRUE;

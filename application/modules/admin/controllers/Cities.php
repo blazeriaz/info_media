@@ -70,7 +70,7 @@ class Cities extends Admin_Controller
 		}
 		
 		$fields = 'ci.id,ci.name as city_name,ci.city_code,co.name as country_name,ci.status';
-		$join_tables[] = array('countries co','co.id=ci.country_id','inner');
+		$join_tables[] = array('countries co','co.id=ci.state_id','inner');
 		$data['total_rows'] = $config['total_rows'] = $this->base_model->get_advance_list('cities ci', $join_tables, $fields, $where, 'num_rows','','','ci.id');
 		$data['cities'] = $this->base_model->get_advance_list('cities ci', $join_tables, $fields, $where, '', 'ci.id', 'desc', 'ci.id', $limit_start, $limit_end);
 		$this->pagination->initialize($config);

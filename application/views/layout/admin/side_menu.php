@@ -19,12 +19,15 @@
 				<li class="<?php if($this->uri->segment(2)=='dashboard')  echo 'active'; ?>">
 					<?php echo anchor(base_url().SITE_ADMIN_URI.'/dashboard','<span class="icon fa fa-tachometer"></span><span class="title" title="Dashboard">Dashboard</span>'); ?>
 				</li>
-				<li class="panel panel-default dropdown <?php if($this->uri->segment(2)=='countries' || $this->uri->segment(2)=='cities')  echo 'active'; ?>">
+				<li class="panel panel-default dropdown <?php if($this->uri->segment(2)=='countries' || $this->uri->segment(2)=='states' || $this->uri->segment(2)=='cities')  echo 'active'; ?>">
 					<?php echo anchor('#dropdown-table','<span class="icon fa fa-sitemap"></span><span class="title" title="Masters">Masters</span>', array('data-toggle'=>'collapse','data-parent'=>'#panel-parent') ); ?>
 					<div id="dropdown-table" class="panel-collapse collapse <?php if($this->uri->segment(2)=='countries' || $this->uri->segment(2)=='cities')  echo 'in'; ?>">
 						<div class="panel-body">
 							<ul class="nav navbar-nav">
 								<li class="<?php if($this->uri->segment(2)=='countries' ) echo 'subactive';?>" ><?php echo anchor(base_url().SITE_ADMIN_URI.'/countries', '<span title="Countries">Countries</span>'); ?></li>
+							</ul>
+							<ul class="nav navbar-nav">
+								<li class="<?php if($this->uri->segment(2)=='states' ) echo 'subactive';?>" ><?php echo anchor(base_url().SITE_ADMIN_URI.'/states', '<span title="States">States</span>'); ?></li>
 							</ul>
 							<ul class="nav navbar-nav">
 								<li class="<?php if($this->uri->segment(2)=='cities' ) echo 'subactive';?>" ><?php echo anchor(base_url().SITE_ADMIN_URI.'/cities', '<span title="Cities">Cities</span>'); ?></li>
@@ -53,10 +56,10 @@
 				</li>				
 				<li class="<?php if($this->uri->segment(2)=='youtube_videos')  echo 'active'; ?>">
 					<?php echo anchor(base_url().SITE_ADMIN_URI.'/youtube_videos','<span class="icon fa fa-youtube-play"></span><span class="title" title="Youtube Videos">Youtube Videos</span>'); ?>
-				</li>-->
+				</li>
 				<li class="<?php if($this->uri->segment(2)=='email_templates')  echo 'active'; ?>">
 					<?php echo anchor(base_url().SITE_ADMIN_URI.'/email_templates','<span class="icon fa fa-mail-reply-all"></span><span class="title" title="Email Templates">Email Templates</span>'); ?>
-				</li>
+				</li>-->
 
 				<li class="<?php if($this->uri->segment(2)=='users')  echo 'active'; ?>">
 					<?php echo anchor(base_url().SITE_ADMIN_URI.'/users','<span class="icon fa fa-user"></span><span class="title" title="Users">Users</span>'); ?>
