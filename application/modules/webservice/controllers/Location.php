@@ -22,8 +22,8 @@ class Location extends CI_Controller
 
 				foreach($countries as $k=>$country)
 				{
-					$data[$k]['country_id'] = $country['id'];
-					$data[$k]['country_name'] = $country['name'];						
+					$data[$k]['id'] = $country['id'];
+					$data[$k]['name'] = $country['name'];						
 				}
 				if(!empty($data))
 				{
