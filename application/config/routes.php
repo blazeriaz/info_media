@@ -73,5 +73,9 @@ $route[SITE_ADMIN_URI.'/email_templates/edit/(:num)'] = 'admin/email_templates/e
 $route['webservice/login'] = 'webservice/login/login';
 $route['webservice/register'] = 'webservice/login/register';
 $route['webservice/change-password'] = 'webservice/login/change_password';
+
+$route['webservice/department'] = 'webservice/department/index';
+$route['webservice/courses'] = 'webservice/courses/index';
+
 $route['webservice/device_token'] = 'webservice/login/device_token';
 $route['webservice/dashboard'] = 'webservice/dashboard';

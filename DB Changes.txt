@@ -54,4 +54,12 @@ ALTER TABLE `department`
 COMMIT;
 
 
+vinoth
+
+ALTER TABLE `department` CHANGE `Subscription` `subscription` ENUM('1','2') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+ALTER TABLE `courses` ADD `status` TINYINT(4) NOT NULL AFTER `modified`;
+
+ALTER TABLE `department` ADD `status` TINYINT(4) NOT NULL AFTER `modified`;
+
 
