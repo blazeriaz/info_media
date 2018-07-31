@@ -79,4 +79,17 @@ CREATE TABLE `course_video_list` (
 COMMIT;
 
 
+/*---------------------------------31-07-2018----------------------------------------------*/
+ALTER TABLE `course_video_list` ADD `status` TINYINT(4) NOT NULL AFTER `view_count`;
+
+ALTER TABLE `course_video_list`
+  DROP `id`;
+
+ALTER TABLE `course_video_list` ADD `id` INT(11) NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
+
+RENAME TABLE `info_media`.`course_video_list` TO `info_media`.`course_video`;
+
+
+
+
 

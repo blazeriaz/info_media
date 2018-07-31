@@ -35,7 +35,7 @@ class Courses extends CI_Controller
 				$error = array(			
 								"ID" => "Please enter the department id",
 							);
-				$result = array( 'st'=> 0 , 'msg'=> 'validation error' , 'errors'=> $error);
+				$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
 				echo $response = json_encode($result);
 				return TRUE;
 			}
@@ -73,7 +73,7 @@ class Courses extends CI_Controller
 								}
 								if(!empty($data))
 								{
-									$result = array( 'ST'=> 1 , 'MSG'=> 'success', 'data' => $data); 
+									$result = array( 'ST'=> 1 , 'MSG'=> 'success', 'DATA' => $data); 
 								}
 								else
 								{

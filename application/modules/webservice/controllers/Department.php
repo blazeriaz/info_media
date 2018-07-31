@@ -60,7 +60,7 @@ class Department extends CI_Controller
 								}
 								if(!empty($data))
 								{
-									$result = array( 'ST'=> 1 , 'MSG'=> 'success', 'data' => $data); 
+									$result = array( 'ST'=> 1 , 'MSG'=> 'success', 'DATA' => $data); 
 								}
 								else
 								{

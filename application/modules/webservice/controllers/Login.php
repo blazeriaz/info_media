@@ -7,13 +7,13 @@ class Login extends CI_Controller
     		parent::__construct();
 			$this->load->library(array('form_validation','email_template'));
 			$this->load->helper('app_function_helper'); 
-			$this->load->model('Login_Model');
+			$this->load->model('login_model');
 			$this->load->model('base_model'); 
 		}
 		
 		public function index() 
 		{     
-			echo "index";
+			echo "index"; 
 		}
 		
 		/**
@@ -50,7 +50,7 @@ class Login extends CI_Controller
 					$password = $this->__encrip_password($this->input->post('pwd'));
 					$login_type = $this->input->post('v'); 
 					$fcmt = $this->input->post('fcmt'); 
-					$response = $this->Login_Model->get_user_by_auth($username, $password, $login_type);	
+					$response = $this->login_model->get_user_by_auth($username, $password, $login_type);	
 					//echo $this->db->last_query();
 					//pr($response);die;
 					if(!empty($response))
@@ -59,7 +59,7 @@ class Login extends CI_Controller
 							$user_details = $response;			
 							$time = date('Y-m-d H:i:s'); 
 							$token = generate_token($response['id']);							
-							$this->Login_Model->update_user_webservice($response['id'], $time, $token);
+							$this->login_model->update_user_webservice($response['id'], $time, $token);
 							
 							$result['st'] = 1;
 							$result['msg'] = 'Successfully Logged In.';
@@ -129,9 +129,9 @@ class Login extends CI_Controller
 					$type = $this->input->post('t');
 					$fcmt = $this->input->post('fcmt');
 					if($type==1){
-						$exist_username = $this->Login_Model->get_user_by_username($username);
-						$exist_email = $this->Login_Model->get_user_by_email($email);
-						$exist_mobile = $this->Login_Model->get_user_by_mobile($mobile);
+						$exist_username = $this->login_model->get_user_by_username($username);
+						$exist_email = $this->login_model->get_user_by_email($email);
+						$exist_mobile = $this->login_model->get_user_by_mobile($mobile);
 						if(!empty($exist_email) && !empty($exist_mobile) && !empty($exist_username))
 						{
 							$result = array( 'st'=> 0 , 'msg'=> 'This email address, username & mobile no already exists. Please enter unique email address, username & mobile number.' ) ;  
@@ -150,13 +150,14 @@ class Login extends CI_Controller
 						}
 						else
 						{						
-							$user_id = $this->Login_Model->set_user();
-							$user_datas = $this->Login_Model->get_user($user_id);
+							$user_id = $this->login_model->set_user();
+							$user_datas = $this->login_model->get_user($user_id);
 							if(!empty($user_id) && !empty($user_datas))
 							{
 								$time = date('Y-m-d H:i:s'); 
+								//$email_activation_code = date("dmY").random_string('numeric', 5).date("his");
 								$token = generate_token($user_datas['id']);
-								$this->Login_Model->update_user_webservice($user_datas['id'], $time, $token);	
+								$this->login_model->update_user_webservice($user_datas['id'], $time, $token);	
 								$result['st'] = 1;
 								$result['msg'] = 'Registration done successfully. Verification email is sent to your registered Email ID. Please verify your account to login.';
 								$result['id'] = $user_datas['id'];
@@ -164,13 +165,30 @@ class Login extends CI_Controller
 								$result['n'] = $user_datas['first_name'] . " ". $user_datas['last_name'];
 								$result['un'] = $user_datas['username'];
 								$result['mail'] = $user_datas['email_id'];
+								
+								$user_email = $user_datas['email_id'];
+								$user_name = $user_datas['username'];
+								$email_config_data = array('[USERNAME]'=> $user_name, 
+														   '[PASSWORD]' => $password,
+														   '[USER_EMAIL]' => $user_email,
+														   '[SITE_NAME]' => $this->config->item('site_name'),
+														   '[LOGO]' => base_url().$this->config->item('logo_mail'),
+														   //'[SITE_LINK]'=>"<a href='".base_url()."email_verify/".$email_activation_code."'>".base_url()."email_verify/".$email_activation_code."</a>"
+														   );	
+								$to_email = $user_email;
+								$from_email = get_site_settings('emailtemplate.from_email','value');
+								
+								$template = 'User Registration';
+								
+								$res = $this->email_template->send_mail($to_email,$from_email,$template,$email_config_data);
+								
 							}else{
 								$result = array( 'st'=> 0 , 'msg'=> 'Registration not successfully.') ;
 							}										
 						}
 					}
 					/*if($type==2){
-						$update = $this->Login_Model->update_user();
+						$update = $this->login_model->update_user();
 						if($update)
 						{
 							$result = array( 'success'=> 1, 'message'=>'Profile Updated Successfully','current_date' => date('Y-m-d'));  
@@ -204,106 +222,104 @@ class Login extends CI_Controller
 		*/
 		public function change_password()
 		{
-			// the message
-			$msg = "First line of text\nSecond line of text";			
-			// use wordwrap() if lines are longer than 70 characters
-			$msg = wordwrap($msg,70);			
-			// send email
-			//mail("vinothlingam@gmail.com","My subject",$msg);
-			
 			if ($this->input->server('REQUEST_METHOD') === 'POST')
 			{							
 				$token =$this->input->get_request_header('authorization', TRUE);
-				if($token){
-					$exist_token = $this->Login_Model->get_user_by_token($token);
+				if($token)
+				{
+					$exist_token = $this->login_model->get_user_by_token($token);
 					if(!$exist_token){
 						$result = array( 'st'=> 0 , 'msg'=> 'authorization not matched' ) ;  
 						echo $response = json_encode($result);
 						return TRUE;
 					}
-				}else{
+				}
+				else{
 					$result = array( 'st'=> 0 , 'msg'=> 'authorization required' ) ;  
 					echo $response = json_encode($result);
 					return TRUE;
 				}
 				$this->form_validation->set_rules('opwd', 'old password','trim|required');
 				$this->form_validation->set_rules('pwd', 'password', 'trim|required'); 		
-				$this->form_validation->set_rules('id', 'user id', 'trim|required'); 		
+				//$this->form_validation->set_rules('id', 'user id', 'trim|required'); 		
 				if ($this->form_validation->run())
 				{					
 					$new_pass = $this->input->post('pwd');
 					$current_pass = $this->input->post('opwd');					
-					$user_id = $this->input->post('id');
+					//$user_id = $this->input->post('id');
 					
-					$response = $this->check_user_token($user_id, $token, 'users' ); 
-					switch(trim($response))
+					$user_by_token = $this->login_model->get_user_by_token($token);
+					
+					if($user_by_token)
 					{
-						case 'SUCCESS' :
-							$user_datas = $this->Login_Model->check_user_token($user_id);
-							if($user_datas['is_active'] == 0)		
-							{
-								$result = array('st'=> 2, 'msg'=> 'Your account not yet activated. Please active via you entered email address or contact admin for account activation','current_date' => date('Y-m-d'));
-							}
-							else
-							{
-								if($new_pass != $current_pass)
+						$user_id = $user_by_token['id'];
+						$response = $this->check_user_token($user_id, $token, 'users' ); 
+						switch(trim($response))
+						{
+							case 'SUCCESS' :
+								$user_datas = $this->login_model->check_user_token($user_id);
+								if($user_datas['is_active'] == 0)		
 								{
-									$user_password = $this->Login_Model->check_user_old_password($user_id, $current_pass); 
-									if(!empty($user_password)){
-										$this->Login_Model->update_password($user_id, $new_pass);
-										
-										
-										
-										$cond = array();
-										$cond[] = array(TRUE, 'id', $user_id ); 
-										$maildetails = $this->base_model->get_records('users','id,concat(first_name," ", last_name) as name, username, email_id', $cond, 'row_array');
-														   
-										if($maildetails){
-											$user_email = $maildetails['email_id'];
-											$user_name = $maildetails['username'];
-																
-											$email_config_data = array('[USERNAME]'=> $user_name, 
-														   '[PASSWORD]' => $new_pass,
-														   '[USER_EMAIL]' => $user_email,
-														   '[SITE_NAME]' => $this->config->item('site_name'),
-														   '[SITE_LINK]'=>"<a href='".base_url()."'>Link</a>"
-														   );
-											$to_email = $user_email;
-											$from_email = get_site_settings('emailtemplate.from_email','value');			
-											$template = 'Change Password User';							
-											$res = $this->email_template->send_mail($to_email,$from_email,$template,$email_config_data);
-										}			
-								
-							
-								   						
-										$result = array('st'=> 1 , 'msg'=> 'Your account password has been changed successfully. Please login to continue');
-									}
-									else{
-										$result = array('st'=> 0 , 'msg'=> "Your current password is wrong");
-									}
+									$result = array('st'=> 2, 'msg'=> 'Your account not yet activated. Please active via you entered email address or contact admin for account activation');
 								}
 								else
 								{
-									$result = array('st'=> 0 , 'msg'=> "Your current password and new password should not be same");
+									if($new_pass != $current_pass)
+									{
+										$user_password = $this->login_model->check_user_old_password($user_id, $current_pass); 
+										if(!empty($user_password)){
+											$this->login_model->update_password($user_id, $new_pass);
+											
+											$cond = array();
+											$cond[] = array(TRUE, 'id', $user_id ); 
+											$maildetails = $this->base_model->get_records('users','id,concat(first_name," ", last_name) as name, username, email_id', $cond, 'row_array');
+															   
+											if($maildetails){
+												$user_email = $maildetails['email_id'];
+												$user_name = $maildetails['username'];
+																	
+												$email_config_data = array('[USERNAME]'=> $user_name, 
+															   '[PASSWORD]' => $new_pass,
+															   '[USER_EMAIL]' => $user_email,
+															   '[SITE_NAME]' => $this->config->item('site_name'),
+															   '[SITE_LINK]'=>"<a href='".base_url()."'>Link</a>"
+															   );
+												$to_email = $user_email;
+												$from_email = get_site_settings('emailtemplate.from_email','value');			
+												$template = 'Change Password User';							
+												$res = $this->email_template->send_mail($to_email,$from_email,$template,$email_config_data);
+											}
+											
+											$result = array('st'=> 1 , 'msg'=> 'Your account password has been changed successfully. Please login to continue');
+										}
+										else{
+											$result = array('st'=> 0 , 'msg'=> "Your current password is wrong");
+										}
+									}
+									else
+									{
+										$result = array('st'=> 0 , 'msg'=> "Your current password and new password should not be same");
+									}
+									
 								}
-								
-							}
-						  	break;
-						
-						case 'INVALID_USER_ID' :
-							$result = array('st'=> 2, 'msg'=> 'Invalid user');
-							break;
-						case 'TOKEN_EXPIRED' :
-							$result = array('st'=> 2,'msg'=>'Token Expired');
-							break;
-						case 'TOKEN_ERROR' :
-							$result = array('st'=> 2,'msg'=>'Sorry! Your current session has been expired. Please login to continue');
-							break;
-						default : 
-							break;  
+								break;
+							
+							case 'INVALID_USER_ID' :
+								$result = array('st'=> 2, 'msg'=> 'Invalid user');
+								break;
+							case 'TOKEN_EXPIRED' :
+								$result = array('st'=> 2,'msg'=>'Token Expired');
+								break;
+							case 'TOKEN_ERROR' :
+								$result = array('st'=> 2,'msg'=>'Sorry! Your current session has been expired. Please login to continue');
+								break;
+							default : 
+								break;  
+						}
 					}
-
-					
+					else{
+						$result = array('st'=> 2,'msg'=>'Token Expired');
+					}					
 				}
 				else
 				{
