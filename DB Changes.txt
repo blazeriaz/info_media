@@ -63,3 +63,20 @@ ALTER TABLE `courses` ADD `status` TINYINT(4) NOT NULL AFTER `modified`;
 ALTER TABLE `department` ADD `status` TINYINT(4) NOT NULL AFTER `modified`;
 
 
+/*---------------------------------31-07-2018----------------------------------------------*/
+DROP TABLE IF EXISTS `course_video_list`;
+CREATE TABLE `course_video_list` (
+  `id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `subscription` enum('1','2') NOT NULL,
+  `video_url` text NOT NULL,
+  `image_url` text NOT NULL,
+  `view_count` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+COMMIT;
+
+
+
