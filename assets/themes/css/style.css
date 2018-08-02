@@ -435,7 +435,7 @@ a:hover {
   .card .card-body.half-padding {
     padding: 12.5px; }
   .card .card-header .card-title {
-    padding: 1.2em 25px;
+    padding: 0.8em 25px 0.8em 25px;
     float: left; }
     .card .card-header .card-title .title {
       font-family: 'Roboto Condensed', sans-serif;
@@ -1508,4 +1508,9 @@ display:none;
 .col-sm-1.custom_check_box  {
     width: 5%;
     padding-right: 0;
+}
+.logo img {
+    height: 60px;
+    margin: 0 auto;
+    display: block;
 }

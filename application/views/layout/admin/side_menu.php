@@ -35,29 +35,20 @@
 						</div>
 					</div>
 				</li>
-				<!--<li class="<?php if($this->uri->segment(2)=='advertisements')  echo 'active'; ?>">
-					<?php echo anchor(base_url().SITE_ADMIN_URI.'/advertisements','<span class="icon fa fa-newspaper-o"></span><span class="title" title="Advertisements">Advertisements</span>'); ?>
+				
+				<li class="<?php if($this->uri->segment(2)=='department')  echo 'active'; ?>">
+					<?php echo anchor(base_url().SITE_ADMIN_URI.'/department','<span class="icon fa fa-user"></span><span class="title" title="Department">Department</span>'); ?>
 				</li>
-				<li class="<?php if($this->uri->segment(2)=='banners')  echo 'active'; ?>">
-					<?php echo anchor(base_url().SITE_ADMIN_URI.'/banners','<span class="icon fa fa-picture-o"></span><span class="title" title="Banners">Banners</span>'); ?>
+				
+				<li class="<?php if($this->uri->segment(2)=='courses')  echo 'active'; ?>">
+					<?php echo anchor(base_url().SITE_ADMIN_URI.'/courses','<span class="icon fa fa-user"></span><span class="title" title="Courses">Courses</span>'); ?>
 				</li>
-				<li class="panel panel-default dropdown <?php if($this->uri->segment(2)=='cms' || $this->uri->segment(2)=='pages')  echo 'active'; ?>">
-					<?php echo anchor('#dropdown-cms','<span class="icon fa fa-file-text"></span><span class="title" title="CMS">CMS</span>', array('data-toggle'=>'collapse','data-parent'=>'#panel-parent') ); ?>
-					<div id="dropdown-cms" class="panel-collapse collapse <?php if($this->uri->segment(2)=='cms' || $this->uri->segment(2)=='pages')  echo 'in'; ?>">
-						<div class="panel-body">							 
-							<ul class="nav navbar-nav">
-								<li class="<?php if($this->uri->segment(2)=='pages' && $this->uri->segment(3)!='import' ) echo 'subactive';?>" ><?php echo anchor(base_url().SITE_ADMIN_URI.'/pages', '<span title="Manage CMS Pages">Manage CMS Pages</span>'); ?></li>
-							</ul>
-						</div>
-					</div>
+				
+				<li class="<?php if($this->uri->segment(2)=='course_video')  echo 'active'; ?>">
+					<?php echo anchor(base_url().SITE_ADMIN_URI.'/course_video','<span class="icon fa fa-user"></span><span class="title" title="Course Video">Course Video</span>'); ?>
 				</li>
-				<li class="<?php if($this->uri->segment(2)=='contact_us')  echo 'active'; ?>">
-					<?php echo anchor(base_url().SITE_ADMIN_URI.'/contact_us','<span class="icon fa fa-mail-reply-all"></span><span class="title" title="Contact Us">Contact Us</span>'); ?>
-				</li>				
-				<li class="<?php if($this->uri->segment(2)=='youtube_videos')  echo 'active'; ?>">
-					<?php echo anchor(base_url().SITE_ADMIN_URI.'/youtube_videos','<span class="icon fa fa-youtube-play"></span><span class="title" title="Youtube Videos">Youtube Videos</span>'); ?>
-				</li>
-				<li class="<?php if($this->uri->segment(2)=='email_templates')  echo 'active'; ?>">
+				
+				<!--<li class="<?php if($this->uri->segment(2)=='email_templates')  echo 'active'; ?>">
 					<?php echo anchor(base_url().SITE_ADMIN_URI.'/email_templates','<span class="icon fa fa-mail-reply-all"></span><span class="title" title="Email Templates">Email Templates</span>'); ?>
 				</li>-->
 

@@ -85,22 +85,19 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 /*** custom constant ***/
-DEFINE('SITE_NAME','Target USMLE');
+DEFINE('SITE_NAME','Info Media');
 DEFINE('SITE_ADMIN_URI','admin');
 DEFINE('ADMIN_LAYOUT_PATH','layout/admin/template');
 DEFINE('SITE_MAIL_TEMPLATE_PATH','layout/site/email_template');
 DEFINE('SITE_LAYOUT_HOME_PATH','layout/site/home-template');
-DEFINE('SITE_LAYOUT_ONLINE_TUTORIAL_PATH','layout/site/online-tutorial-template');
 DEFINE('SITE_LAYOUT_PATH','layout/site/template');
-DEFINE('SITE_LAYOUT_STEP_PATH','layout/site/step-template');
 DEFINE('SITE_EMPTY_PATH','layout/site/empty');
 DEFINE('SITE_LAYOUT_USER_PATH','layout/site/user-template');
-DEFINE('SITE_LAYOUT_WEBVIEWER','layout/site/webviewer-template');
 DEFINE('ADMIN_TIME_FORMAT','d-m-Y H i s');
 DEFINE('ADMIN_DATE_FORMAT','d-m-Y');
 DEFINE('ADMIN_DATE_FORMAT_JS','dd-mm-yy');
 DEFINE('FRONT_TIME_FORMAT','d-m-Y H:i');
 DEFINE('FRONT_DATE_FORMAT','d-m-Y');
-DEFINE('SITE_ADMIN_MAIL', 'dr.maryjune@targetusmle.com' );
+DEFINE('SITE_ADMIN_MAIL', 'admin@infomedia.com' );
 
 

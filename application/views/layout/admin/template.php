@@ -6,7 +6,7 @@
 <html>
 	<head>
     	<title><?php echo SITE_NAME; ?> - Admin Panel</title>
-    	<link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url()."assets/site/" ?>favicon.ico" />
+    	<link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url()."assets/images/" ?>favicon.png" />
     	<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
 		<meta charset="utf-8"/>
