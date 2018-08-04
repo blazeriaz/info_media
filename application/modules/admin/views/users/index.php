@@ -39,7 +39,7 @@
 						<div class="form-group">
 				            
 				            <div class="col-sm-4">
-				            	<?php echo form_input('search_name',$keyword_name,'placeholder= "Search Name / Contact no / Email ID / Skype ID" class="form-control" id="search_name"'); ?>
+				            	<?php echo form_input('search_name',$keyword_name,'placeholder= "Search Name / Contact no / Email ID" class="form-control" id="search_name"'); ?>
 							</div>
 							<div class="col-sm-2" style="display:none;">
 								<?php 
@@ -65,15 +65,13 @@
                               <tr>
 								<th><?php echo form_checkbox(array('id'=>'selecctall','name'=>'selecctall')); ?></th>
                               	<th>S.No</th>
-                               <th>Created</th>
+								<th>Created</th>
                                 <th>Username</th>
-                                <th>Last Name</th>
-                                <th>Last Name</th>
                                 <th>Email ID</th>
-                                <th>Skype ID</th>
-                                <!--<th>Country</th>
-                                <th>City</th>-->
                                 <th>Contact No</th>
+                                <!--<th>Country</th>-->
+                                <th>State</th>
+                                <th>City</th>
 								<th>Status</th>
 
                                 <th class="text-center">Action</th>
@@ -93,13 +91,11 @@
 										<td><?php 
 										echo date( ADMIN_DATE_FORMAT, strtotime($res['created']));?></td>
 										<td><?php $username= $res['username']; echo (strlen($username)>30?substr($username,0,30)."...":$username) ;?></td>
-										<td><?php $firstname= $res['first_name']; echo (strlen($firstname)>30?substr($firstname,0,30)."...":$firstname) ;?></td>
-										<td><?php $lastname= $res['last_name']; echo (strlen($lastname)>30?substr($lastname,0,30)."...":$lastname) ;?></td>
 										<td><?php $email= $res['email_id']; echo (strlen($email)>100?substr($email,0,100)."...":$email) ;?></td>
-										<td><?php $skype= $res['skype_id']; echo (strlen($skype)>100?substr($skype,0,100)."...":$skype) ;?></td>
-										<!--<td><?php //echo $get_countries[$res['country']];?></td>
-										<td><?php //echo $get_cities[$res['city']];?></td>-->
 										<td><?php echo $res['phone_no'];?></td>
+										<!--<td><?php //echo $res['country_name'];?></td>-->
+										<td><?php echo $res['state_name'];?></td>
+										<td><?php echo $res['city_name'];?></td>
 										<td>
 											<?php if($res['status'] ==1){?>
 												<a href="<?php echo SITE_URL().SITE_ADMIN_URI;?>/users/update_status/<?php echo $res['id'];?>/<?php echo $res['status'];?>/<?php echo $pagestatus.'/'.$pagingstatus.'?sortingfied='.$fieldssort.'&sortype='.$ordersort;?>" class="change_status"><span class="icon glyphicon glyphicon glyphicon-ok"></span></a>
@@ -110,8 +106,8 @@
 										
 														                                     							
 										<td class="actions text-center">
-										<a href="<?php echo SITE_URL().SITE_ADMIN_URI;?>/users/edit/<?php echo $res['id'];?>" title = "Edit"><span class="icon glyphicon glyphicon-pencil"></span><span class="title">Edit</span></a> 										
-										<a href="<?php echo SITE_URL().SITE_ADMIN_URI;?>/users/change_password/<?php echo $res['id'];?>/<?php echo $pagestatus.'/'.$pagingstatus.'?sortingfied='.$fieldssort.'&sortype='.$ordersort;?>" title = "change password"><span class="icon glyphicon glyphicon-wrench"></span><span class="title">Change Password</span></a>
+										<a href="<?php echo SITE_URL().SITE_ADMIN_URI;?>/users/edit/<?php echo $res['id'];?>" title = "Edit" class="btn btn-default"><span class="icon glyphicon glyphicon-pencil"></span><span class="title"></span></a> 										
+										<a href="<?php echo SITE_URL().SITE_ADMIN_URI;?>/users/change_password/<?php echo $res['id'];?>/<?php echo $pagestatus.'/'.$pagingstatus.'?sortingfied='.$fieldssort.'&sortype='.$ordersort;?>" title = "change password" class="btn btn-default"><span class="icon glyphicon glyphicon-wrench"></span><span class="title"></span></a>
 										</td>
              							</tr>
 

@@ -78,6 +78,7 @@ class Courses extends Admin_Controller
 
 		$fields = 'c.id,c.name,c.dept_id,c.subscription,c.modified,c.created,c.status,d.name as department';
 		$join_tables[] = array('department d','d.id=c.dept_id','inner');
+		$where[] = array( TRUE, 'd.status', 1);
 		$data['total_rows'] = $config['total_rows'] = $this->base_model->get_advance_list($table_name.' c', $join_tables, $fields, $where, 'num_rows','','','c.id');
 		$data['results'] = $this->base_model->get_advance_list($table_name.' c', $join_tables, $fields, $where, '', $sorting_field, $sorting_order, 'c.id', $limit_start, $limit_end);
 		
@@ -141,8 +142,8 @@ class Courses extends Admin_Controller
 		}
 		
 		$join_tables = $where = array(); 
-		$where[] = array( TRUE, 'status', 1);
 		$fields = 'id,name,subscription,modified,created,status';
+		$where[] = array( TRUE, 'status', 1);
 		$departments = $this->base_model->get_advance_list('department', '', $fields, $where, '', 'name', 'desc', 'id');
 		$data['departments'] = array();
 		$data['departments'][''] = "Select Department";
@@ -189,8 +190,8 @@ class Courses extends Admin_Controller
 		}
 		
 		$join_tables = $where = array(); 
-		$where[] = array( TRUE, 'status', 1);
 		$fields = 'id,name,subscription,modified,created,status';
+		$where[] = array( TRUE, 'status', 1);
 		$departments = $this->base_model->get_advance_list('department', '', $fields, $where, '', 'name', 'desc', 'id');
 		$data['departments'] = array();
 		$data['departments'][''] = "Select Department";

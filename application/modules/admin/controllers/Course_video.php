@@ -78,6 +78,9 @@ class Course_video extends Admin_Controller
 
 		$fields = $table_name.'.*,courses.name as course';
 		$join_tables[] = array('courses','courses.id='.$table_name.'.course_id','inner');
+		$join_tables[] = array('department','department.id=courses.dept_id','inner');
+		$where[] = array( TRUE, 'courses.status', 1);
+		$where[] = array( TRUE, 'department.status', 1);
 		$data['total_rows'] = $config['total_rows'] = $this->base_model->get_advance_list($table_name, $join_tables, $fields, $where, 'num_rows','','',$table_name.'.id');
 		$data['results'] = $this->base_model->get_advance_list($table_name, $join_tables, $fields, $where, '', $sorting_field, $sorting_order, $table_name.'.id', $limit_start, $limit_end);
 		
@@ -145,9 +148,11 @@ class Course_video extends Admin_Controller
 		}
 		
 		$join_tables = $where = array(); 
-		$where[] = array( TRUE, 'status', 1);
-		$fields = 'id,name,subscription,modified,created,status';
-		$courses = $this->base_model->get_advance_list('courses', '', $fields, $where, '', 'name', 'desc', 'id');
+		$fields = 'courses.*';		
+		$join_tables[] = array('department','department.id=courses.dept_id','inner');
+		$where[] = array( TRUE, 'courses.status', 1);
+		$where[] = array( TRUE, 'department.status', 1);
+		$courses = $this->base_model->get_advance_list('courses', $join_tables, $fields, $where, '', 'name', 'desc', 'id');
 		$data['courses'] = array();
 		$data['courses'][''] = "Select Course";
 		foreach($courses as $course){
@@ -197,9 +202,11 @@ class Course_video extends Admin_Controller
 		}
 		
 		$join_tables = $where = array(); 
-		$where[] = array( TRUE, 'status', 1);
-		$fields = 'id,name,subscription,modified,created,status';
-		$courses = $this->base_model->get_advance_list('courses', '', $fields, $where, '', 'name', 'desc', 'id');
+		$fields = 'courses.*';		
+		$join_tables[] = array('department','department.id=courses.dept_id','inner');
+		$where[] = array( TRUE, 'courses.status', 1);
+		$where[] = array( TRUE, 'department.status', 1);
+		$courses = $this->base_model->get_advance_list('courses', $join_tables, $fields, $where, '', 'name', 'desc', 'id');
 		$data['courses'] = array();
 		$data['courses'][''] = "Select Course";
 		foreach($courses as $course){

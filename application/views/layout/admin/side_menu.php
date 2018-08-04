@@ -37,15 +37,15 @@
 				</li>
 				
 				<li class="<?php if($this->uri->segment(2)=='department')  echo 'active'; ?>">
-					<?php echo anchor(base_url().SITE_ADMIN_URI.'/department','<span class="icon fa fa-user"></span><span class="title" title="Department">Department</span>'); ?>
+					<?php echo anchor(base_url().SITE_ADMIN_URI.'/department','<span class="icon fa fa-university"></span><span class="title" title="Department">Department</span>'); ?>
 				</li>
 				
 				<li class="<?php if($this->uri->segment(2)=='courses')  echo 'active'; ?>">
-					<?php echo anchor(base_url().SITE_ADMIN_URI.'/courses','<span class="icon fa fa-user"></span><span class="title" title="Courses">Courses</span>'); ?>
+					<?php echo anchor(base_url().SITE_ADMIN_URI.'/courses','<span class="icon fa fa-newspaper-o"></span><span class="title" title="Courses">Courses</span>'); ?>
 				</li>
 				
 				<li class="<?php if($this->uri->segment(2)=='course_video')  echo 'active'; ?>">
-					<?php echo anchor(base_url().SITE_ADMIN_URI.'/course_video','<span class="icon fa fa-user"></span><span class="title" title="Course Video">Course Video</span>'); ?>
+					<?php echo anchor(base_url().SITE_ADMIN_URI.'/course_video','<span class="icon fa fa-file-video-o"></span><span class="title" title="Course Video">Course Video</span>'); ?>
 				</li>
 				
 				<!--<li class="<?php if($this->uri->segment(2)=='email_templates')  echo 'active'; ?>">
@@ -53,7 +53,7 @@
 				</li>-->
 
 				<li class="<?php if($this->uri->segment(2)=='users')  echo 'active'; ?>">
-					<?php echo anchor(base_url().SITE_ADMIN_URI.'/users','<span class="icon fa fa-user"></span><span class="title" title="Users">Users</span>'); ?>
+					<?php echo anchor(base_url().SITE_ADMIN_URI.'/users','<span class="icon fa fa-users"></span><span class="title" title="Users">Users</span>'); ?>
 				</li>
 			</ul>
 		</div>
