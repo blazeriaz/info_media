@@ -30,13 +30,19 @@
 							echo form_open_multipart('', $attributes); ?>
 							
 							<div class="form-group">
-								<?php echo form_label('Country <span class="required">*</span>','country_id',array('class'=>'col-sm-2 control-label')); ?>
+								<?php echo form_label('Country <span class="required">*</span>','state_id',array('class'=>'col-sm-2 control-label')); ?>
+								<div class="col-sm-4">
+									<div class="form-control">India</div>
+								</div>
+							</div>		
+							<div class="form-group">
+								<?php echo form_label('State <span class="required">*</span>','state_id',array('class'=>'col-sm-2 control-label')); ?>
 								<div class="col-sm-4">
 									<?php
-									$js = 'id="country_id" class="form-control"';
-									$set_country = isset($_POST['country_id']) ? $_POST['country_id'] : (isset($cities['country_id']) ? $cities['country_id'] : '');
-									echo form_dropdown('country_id', $countries_list,$set_country, $js);
-									if(form_error('country_id')) echo form_label(form_error('country_id'), 'country_id',array("id"=>"country_id-error" , "class"=>"error")); ?>
+									$js = 'id="state_id" class="form-control"';
+									$set_state = isset($_POST['state_id']) ? $_POST['state_id'] : (isset($cities['state_id']) ? $cities['state_id'] : '');
+									echo form_dropdown('state_id', $states_list,$set_state, $js);
+									if(form_error('state_id')) echo form_label(form_error('state_id'), 'state_id',array("id"=>"state_id-error" , "class"=>"error")); ?>
 								</div>
 							</div>
 

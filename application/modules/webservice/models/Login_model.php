@@ -25,7 +25,8 @@
 			}
 			$this->db->where('login_type', $login_type);
 			$this->db->where('is_email_verified', 1);
-			$this->db->where('is_active', 1);
+			//$this->db->where('is_active', 1);
+			$this->db->where('status', 1);
 			$query = $this->db->get('users');
 			return $query->row_array();
 		}
@@ -125,7 +126,7 @@
 		
 		public function get_user_by_email($mailid)
 		{			
-			$this->db->select('users.id, users.email_id, users.is_email_verified, users.is_active');
+			$this->db->select('users.id, users.email_id, users.is_email_verified, users.is_active, users.status');
 			$this->db->from('users');
 			$this->db->where("users.email_id='".$mailid."' AND users.is_deleted = 0");	
 			$selectResponse = $this->db->get();
@@ -134,7 +135,7 @@
 		
 		public function get_user_by_mobile($mobile)
 		{			
-			$this->db->select('users.id, users.email_id, users.is_email_verified, users.is_active');
+			$this->db->select('users.id, users.email_id, users.is_email_verified, users.is_active, users.status');
 			$this->db->from('users');
 			$this->db->where("users.phone_no='".$mobile."' AND users.is_deleted = 0");	
 			$selectResponse = $this->db->get();
@@ -143,7 +144,7 @@
 		
 		public function get_user_by_username($username)
 		{			
-			$this->db->select('users.id, users.email_id, users.is_email_verified, users.is_active');
+			$this->db->select('users.id, users.email_id, users.is_email_verified, users.is_active, users.status');
 			$this->db->from('users');
 			$this->db->where("users.username='".$username."' AND users.is_deleted = 0");	
 			$selectResponse = $this->db->get();
@@ -193,7 +194,8 @@
 							'login_type' => $this->input->post('v') ? $this->input->post('v') : 0,
 							'fcmt' => $this->input->post('fcmt'),
 							'is_email_verified' => 1,
-							'is_active' => 1
+							'is_active' => 1,
+							'status' => 1
 						);
 			$this->db->insert('users',$data);
 			

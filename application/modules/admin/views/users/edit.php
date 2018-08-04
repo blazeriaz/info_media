@@ -63,7 +63,7 @@
                                 <div class="col-sm-4">
 									<?php
 									if($this->input->post('phone_no')){ $phone_no = $this->input->post('phone_no'); }else if($users['phone_no']){ $phone_no = $users['phone_no']; }else{ $phone_no =''; }
-									echo form_input('phone_no',$phone_no,'placeholder= "Contact Number" class="form-control phoneOnly" id="phone_no"'); 
+									echo form_input('phone_no',$phone_no,'placeholder= "Contact Number" class="form-control phoneOnly" id="phone_no" readonly="true"'); 
                    					if(form_error('phone_no')) echo form_label(form_error('phone_no'), 'phone_no', array("id"=>"phone_no-error" , "class"=>"error")); ?>
                                 </div>
 							</div>

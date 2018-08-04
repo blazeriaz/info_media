@@ -56,7 +56,7 @@ class Course_video extends CI_Controller
 					{
 						case 'SUCCESS' :
 							$user_datas = $this->login_model->check_user_token($user_id);
-							if($user_datas['is_active'] == 0)		
+							if($user_datas['status'] == 0)		
 							{
 								$result = array('ST'=> 2, 'MSG'=> 'Your account not yet activated. Please active via you entered email address or contact admin for account activation');
 							}

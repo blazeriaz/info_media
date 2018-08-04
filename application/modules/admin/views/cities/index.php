@@ -42,8 +42,11 @@
 										<?php echo form_input('search_name',$keyword_name,'placeholder= "Search Name" class="form-control" id="search_name"'); ?>
 									</div>
 									<div class="col-sm-3">
-										<?php $countries_list[''] = 'Select Country Name'; ?>
-										<?php echo form_dropdown('search_country',$countries_list,$keyword_search_country,'placeholder= "Search Country" class="form-control" id="search_country"'); ?>
+										<?php 
+										unset($states_list['']);
+										$states_list[''] = 'Select State Name'; 
+										?>
+										<?php echo form_dropdown('search_state',$states_list,$keyword_search_state,'placeholder= "Search State" class="form-control" id="search_state"'); ?>
 									</div>
 		        					<div class="col-sm-2  col-lg-2">
 		        					<?php $submit_val = array('name' => 'submit-search', 'class' => 'btn btn-default full-width-btn', 'value' => 'Search', 'title' => 'Search');
@@ -63,7 +66,7 @@
 											<th>S.No</th>		                                      
 											<th>Name</th>
 											<!--<th>City Code</th>-->
-											<th>Country Name</th>
+											<th>State Name</th>
 											<th>Status</th>
                                  			<th class="text-center">Action</th>
 										</tr>
@@ -73,7 +76,7 @@
 											<th>S.No</th>
 											<th>Name</th>
 											<!--<th>City Code</th>-->
-											<th>Country Name</th>
+											<th>State Name</th>
 											<th>Status</th>
 	                                        <th  class="text-center">Action</th>                                          
 										</tr>
@@ -89,7 +92,7 @@
 													<td><?php echo ($limit_end+$key+1);?></td>
 													<td><?php echo (strlen($res['city_name'])>60?substr($res['city_name'],0,60)."...":$res['city_name']) ;?></td>
 													<!--<td><?php echo (strlen($res['city_code'])>30?substr($res['city_code'],0,30)."...":$res['city_code']) ;?></td> -->
-													<td><?php echo (strlen($res['country_name'])>60?substr($res['country_name'],0,60)."...":$res['country_name']) ;?></td>
+													<td><?php echo (strlen($res['state_name'])>60?substr($res['state_name'],0,60)."...":$res['state_name']) ;?></td>
 													<td>
 														<?php if($res['status'] ==1){?>
 														<a href="<?php echo SITE_URL().SITE_ADMIN_URI;?>/cities/update_status/<?php echo $res['id'];?>/<?php echo $res['status'];?>/<?php echo $pagestatus.'/'.$pagingstatus.'?sortingfied='.$fieldssort.'&sortype='.$ordersort;?>" class="change_status"><span class="icon glyphicon glyphicon glyphicon-ok"></span></a>

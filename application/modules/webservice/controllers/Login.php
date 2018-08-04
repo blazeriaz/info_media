@@ -55,7 +55,7 @@ class Login extends CI_Controller
 					//pr($response);die;
 					if(!empty($response))
 					{
-						if($response['is_active']!=0){
+						if($response['status']!=0){
 							$user_details = $response;			
 							$time = date('Y-m-d H:i:s'); 
 							$token = generate_token($response['id']);							
@@ -65,7 +65,8 @@ class Login extends CI_Controller
 							$result['msg'] = 'Successfully Logged In.';
 							$result['id'] = $user_details['id'];
 							$result['tn'] = $token;
-							$result['n'] = $user_details['first_name'] . " ". $user_details['last_name'];
+							//$result['n'] = $user_details['first_name'] . " ". $user_details['last_name'];
+							$result['n'] = $user_details['username'];
 							$result['un'] = $user_details['username'];
 							$result['mail'] = $user_details['email_id'];
 						}else{
@@ -162,7 +163,8 @@ class Login extends CI_Controller
 								$result['msg'] = 'Registration done successfully. Verification email is sent to your registered Email ID. Please verify your account to login.';
 								$result['id'] = $user_datas['id'];
 								$result['tn'] = $token;
-								$result['n'] = $user_datas['first_name'] . " ". $user_datas['last_name'];
+								//$result['n'] = $user_datas['first_name'] . " ". $user_datas['last_name'];
+								$result['n'] = $user_datas['username'];
 								$result['un'] = $user_datas['username'];
 								$result['mail'] = $user_datas['email_id'];
 								
@@ -258,7 +260,7 @@ class Login extends CI_Controller
 						{
 							case 'SUCCESS' :
 								$user_datas = $this->login_model->check_user_token($user_id);
-								if($user_datas['is_active'] == 0)		
+								if($user_datas['status'] == 0)		
 								{
 									$result = array('st'=> 2, 'msg'=> 'Your account not yet activated. Please active via you entered email address or contact admin for account activation');
 								}

@@ -29,17 +29,17 @@ class Cities extends Admin_Controller
 			$keyword_name = "";
 		}
 
-		$search_country_keyword  = isset($_POST['search_country'])?trim($_POST['search_country']):(isset($_SESSION['cities_search_country'])?$_SESSION['cities_search_country']:'');
-		$this->session->set_userdata('cities_search_country', $search_country_keyword);
-		$search_country_session = $this->session->userdata('cities_search_country');
-		if($search_country_session != '')
+		$search_state_keyword  = isset($_POST['search_state'])?trim($_POST['search_state']):(isset($_SESSION['cities_search_state'])?$_SESSION['cities_search_state']:'');
+		$this->session->set_userdata('cities_search_state', $search_state_keyword);
+		$search_state_session = $this->session->userdata('cities_search_state');
+		if($search_state_session != '')
 		{
-			$search_country = $this->session->userdata('cities_search_country');
+			$search_state = $this->session->userdata('cities_search_state');
 		}
 		else
 		{
-			isset($_SESSION['cities_search_country'])?$this->session->unset_userdata('cities_search_country'):'';
-			$search_country = "";
+			isset($_SESSION['cities_search_state'])?$this->session->unset_userdata('cities_search_state'):'';
+			$search_state = "";
 		}
 
 		$this->load->helper('thumb_helper');
@@ -60,22 +60,24 @@ class Cities extends Admin_Controller
 		else{
 			$data['keyword_name'] = "";
 		}
-		if($search_country)
+		if($search_state)
 		{
-			$where[] = array( FALSE,"(st.country_id = '".$search_country."')");
-			$data['keyword_search_country'] = $search_country;
+			$where[] = array( FALSE,"(ci.state_id = '".$search_state."')");
+			$data['keyword_search_state'] = $search_state;
 		}
 		else{
-			$data['keyword_search_country'] = "";
+			$data['keyword_search_state'] = "";
 		}
 		
-		$fields = 'ci.id,ci.name as city_name,ci.city_code,co.name as country_name,ci.status';
+		$fields = 'ci.id,ci.name as city_name,ci.city_code,st.name as state_name,ci.status';
 		$join_tables[] = array('states st','st.id=ci.state_id','inner');
-		$join_tables[] = array('countries co','co.id=st.country_id','inner');
+		//$join_tables[] = array('countries co','co.id=st.country_id','inner');
+		$where[] = array( FALSE,"(st.country_id = 101)"); // India
 		$data['total_rows'] = $config['total_rows'] = $this->base_model->get_advance_list('cities ci', $join_tables, $fields, $where, 'num_rows','','','ci.id');
 		$data['cities'] = $this->base_model->get_advance_list('cities ci', $join_tables, $fields, $where, '', 'ci.id', 'desc', 'ci.id', $limit_start, $limit_end);
 		$this->pagination->initialize($config);
-		$data['countries_list'] = $this->base_model->getArrayList('countries');
+		$conditions = array('status = 1 and country_id =101'); //India
+		$data['states_list'] = $this->base_model->getArrayList('states',$conditions);
 		$data['main_content'] = 'cities/index';
 		$data['page_title']  = 'Cities'; 
 		$this->load->view(ADMIN_LAYOUT_PATH, $data); 	
@@ -84,7 +86,7 @@ class Cities extends Admin_Controller
 	public function reset()
 	{
 		$this->session->unset_userdata('cities_search_name');
-		$this->session->unset_userdata('cities_search_country');
+		$this->session->unset_userdata('cities_search_state');
 		redirect(base_url().SITE_ADMIN_URI.'/cities/');
 	}
 	public function validate_select($val, $fieldname){
@@ -94,8 +96,8 @@ class Cities extends Admin_Controller
 		}			
 	}
 	public function validate_city_name($name, $fieldname){
-		$country_id = $this->input->post('country_id');	
-		$list = $this->base_model->getArrayList('cities',array('country_id'=>$country_id));
+		$state_id = $this->input->post('state_id');	
+		$list = $this->base_model->getArrayList('cities',array('state_id'=>$state_id));
 		unset($list['']);
 		function formatize($a){
 			return strtolower(trim($a));
@@ -109,8 +111,8 @@ class Cities extends Admin_Controller
 	}
 
 	public function validate_city_code($code, $fieldname){
-		$country_id = $this->input->post('country_id');	
-		$list = $this->base_model->getArrayList('cities',array('country_id'=>$country_id),'','id,city_code');
+		$state_id = $this->input->post('state_id');	
+		$list = $this->base_model->getArrayList('cities',array('state_id'=>$state_id),'','id,city_code');
 		unset($list['']);		
 		$list = array_map('formatize',$list);
 		if(in_array(strtolower(trim($code)),$list)){
@@ -134,7 +136,7 @@ class Cities extends Admin_Controller
 		{
 	      	$this->form_validation->set_rules('name', 'Name', 'trim|required|callback_alpha_space|max_length[35]|callback_validate_city_name[Name]');
 			//$this->form_validation->set_rules('city_code', 'City Code','trim|required|max_length[35]|callback_validate_city_code[City Code]');
-			$this->form_validation->set_rules('country_id', 'Country','trim|callback_validate_select[Country]');
+			$this->form_validation->set_rules('state_id', 'State','trim|callback_validate_select[State]');
 			
 			if ($this->form_validation->run())
 			{   
@@ -143,7 +145,7 @@ class Cities extends Admin_Controller
 				$update_array = array (	'name' => $this->input->post('name'),
 										'slug' => create_slug($this->input->post('name'),'cities'),
 										//'city_code' => $this->input->post('city_code'),
-										'country_id' => $this->input->post('country_id'),
+										'state_id' => $this->input->post('state_id'),
 										'status' => $this->input->post('status')
 									  );
 				$this->base_model->insert( 'cities', $update_array);
@@ -153,7 +155,10 @@ class Cities extends Admin_Controller
 			}
 			$data['post'] = TRUE;
 		}
-		$data['countries_list'] = $this->base_model->getSelectList('countries');
+		//$data['states_list'] = $this->base_model->getSelectList('states');
+		//$conditions = array('status = 1');
+		$conditions = array('status = 1 and country_id =101'); //India
+		$data['states_list'] = $this->base_model->getArrayList('states',$conditions);
 		$data['main_content'] = 'cities/add';
 		$data['page_title']  = 'Add Cities'; 
 		$this->load->view(ADMIN_LAYOUT_PATH, $data); 	
@@ -177,26 +182,25 @@ class Cities extends Admin_Controller
 		 
 		$join_tables = $where = array();
 		$join_tables[] = array('states st','st.id=ci.state_id','inner');
-		$join_tables[] = array('countries co','co.id=st.country_id','inner');
 		$where[] = array( TRUE, 'ci.id', $id);
-		$fields = 'ci.name,ci.city_code,st.country_id'; 
+		$fields = 'ci.name,ci.city_code,ci.state_id'; 
 		$getValues = $this->base_model->get_advance_list('cities ci', $join_tables, $fields, $where, 'row_array');
 		
 		if ($this->input->server('REQUEST_METHOD') === 'POST')
 		{
-			if(($this->input->post('name') != $getValues['name']) || ($this->input->post('country_id') != $getValues['country_id']) ) {
+			if(($this->input->post('name') != $getValues['name']) || ($this->input->post('state_id') != $getValues['state_id']) ) {
 				$is_unique_name =  '|callback_validate_city_name[Name]' ;
 			} else {
 				$is_unique_name =  '' ;
 			}
-			if(($this->input->post('city_code') != $getValues['city_code']) || ($this->input->post('country_id') != $getValues['country_id'])) {
+			if(($this->input->post('city_code') != $getValues['city_code']) || ($this->input->post('state_id') != $getValues['state_id'])) {
 				$is_unique_code =  '|callback_validate_city_code[City Code]' ;
 			} else {
 				$is_unique_code =  '' ;
 			}
 	      	$this->form_validation->set_rules('name', 'Name', 'trim|required|callback_alpha_space|max_length[35]'.$is_unique_name);
 			//$this->form_validation->set_rules('city_code', 'City Code','trim|required|max_length[35]'.$is_unique_code);
-			$this->form_validation->set_rules('country_id', 'Country','trim|callback_validate_select[Country]');
+			$this->form_validation->set_rules('state_id', 'Country','trim|callback_validate_select[Country]');
 
 			
 			if ($this->form_validation->run())
@@ -205,7 +209,7 @@ class Cities extends Admin_Controller
 				
 				$update_array = array (	'name' => $this->input->post('name'),
 										//'city_code' => $this->input->post('city_code'),
-										//'country_id' => $this->input->post('country_id'),
+										'state_id' => $this->input->post('state_id'),
 										'status' => $this->input->post('status')
 									);
 				if(($this->input->post('name') != $getValues['name'])){
@@ -220,12 +224,13 @@ class Cities extends Admin_Controller
 		
 		$join_tables = $where = array();
 		$join_tables[] = array('states st','st.id=ci.state_id','inner');
-		$join_tables[] = array('countries co','co.id=st.country_id','inner');
 		
-		$fields = 'ci.id, ci.name as city_name,ci.city_code,st.country_id,ci.status,co.name as country_name'; 
+		$fields = 'ci.id, ci.name as city_name,ci.city_code,ci.state_id,ci.status,st.name as state_name'; 
 		$where[] = array( TRUE, 'ci.id', $id);
 		$data['cities'] = $this->base_model->get_advance_list('cities ci', $join_tables, $fields, $where, 'row_array');
-		$data['countries_list'] = $this->base_model->getArrayList('countries');
+		//$conditions = array('status = 1');
+		$conditions = array('status = 1 and country_id =101'); //India
+		$data['states_list'] = $this->base_model->getArrayList('states',$conditions);
 		$data['main_content'] = 'cities/edit';
 		$data['page_title']  = 'Edit Cities'; 
 		$this->load->view(ADMIN_LAYOUT_PATH, $data); 	
