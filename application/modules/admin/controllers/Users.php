@@ -199,6 +199,7 @@ public function randPass($length, $strength=8) {
 					$email_config_data = array('[USERNAME]'=> $user_name, 
 											   '[PASSWORD]' => $raw_password,
 											   '[USER_EMAIL]' => $user_email,
+											   '[LOGO]' => base_url().$this->config->item('logo_mail'),
 											   '[SITE_NAME]' => $this->config->item('site_name'),
 											   '[SITE_LINK]'=>"<a href='".base_url()."'>Link</a>"
 											   );
