@@ -92,6 +92,8 @@ RENAME TABLE `info_media`.`course_video_list` TO `info_media`.`course_video`;
 /*---------------------------------04-08-2018----------------------------------------------*/
 ALTER TABLE `states` ADD `state_code` VARCHAR(255) NOT NULL AFTER `country_id`, ADD `status` INT(11) NOT NULL AFTER `state_code`, ADD `created` DATETIME NOT NULL AFTER `status`, ADD `modified` DATETIME NOT NULL AFTER `created`;
 
+ALTER TABLE `states` ADD `slug` VARCHAR(255) NOT NULL AFTER `name`;
+
 
 
 
