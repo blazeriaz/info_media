@@ -229,9 +229,14 @@ public function randPass($length, $strength=8) {
 		$conditions = array('status = 1 and country_id = 101');
 		$data['states'] = $this->base_model->getArrayList('states',$conditions,'','id,name');	
 		
-		$conditions = array('status = 1');
+		//$conditions = array('status = 1');
 		//$data['cities'] = $this->base_model->getArrayList('cities',$conditions,'','id,name');	
 		$data['cities'] = array(''=>'Select');	
+		
+		if($this->input->post('state')){
+			$conditions = array('status = 1 and state_id = '.$this->input->post('state'));
+			$data['cities'] = $this->base_model->getArrayList('cities',$conditions,'','id,name');	
+		}
 		
 		$data['css'][]='assets/themes/css/jquery.datetimepicker.css';
 		$data['js'][]='assets/themes/js/jquery.datetimepicker.full.js';

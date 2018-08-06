@@ -95,5 +95,32 @@ ALTER TABLE `states` ADD `state_code` VARCHAR(255) NOT NULL AFTER `country_id`, 
 ALTER TABLE `states` ADD `slug` VARCHAR(255) NOT NULL AFTER `name`;
 
 
+/*---------------------------------06-08-2018----------------------------------------------*/
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+CREATE TABLE `gallery` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `datatime` datetime NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `gallery`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `gallery`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  
+ALTER TABLE `gallery` CHANGE `datatime` `datetime` DATETIME NOT NULL;
+
+
 
 

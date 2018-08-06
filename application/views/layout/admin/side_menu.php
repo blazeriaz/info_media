@@ -21,7 +21,7 @@
 				</li>
 				<li class="panel panel-default dropdown <?php if($this->uri->segment(2)=='countries' || $this->uri->segment(2)=='states' || $this->uri->segment(2)=='cities')  echo 'active'; ?>">
 					<?php echo anchor('#dropdown-table','<span class="icon fa fa-sitemap"></span><span class="title" title="Masters">Masters</span>', array('data-toggle'=>'collapse','data-parent'=>'#panel-parent') ); ?>
-					<div id="dropdown-table" class="panel-collapse collapse <?php if($this->uri->segment(2)=='countries' || $this->uri->segment(2)=='cities')  echo 'in'; ?>">
+					<div id="dropdown-table" class="panel-collapse collapse <?php if($this->uri->segment(2)=='countries' || $this->uri->segment(2)=='states' || $this->uri->segment(2)=='cities')  echo 'in'; ?>">
 						<div class="panel-body">
 							<ul class="nav navbar-nav">
 								<li class="<?php if($this->uri->segment(2)=='countries' ) echo 'subactive';?>" ><?php echo anchor(base_url().SITE_ADMIN_URI.'/countries', '<span title="Countries">Countries</span>'); ?></li>
@@ -46,6 +46,10 @@
 				
 				<li class="<?php if($this->uri->segment(2)=='course_video')  echo 'active'; ?>">
 					<?php echo anchor(base_url().SITE_ADMIN_URI.'/course_video','<span class="icon fa fa-file-video-o"></span><span class="title" title="Course Video">Course Video</span>'); ?>
+				</li>
+				
+				<li class="<?php if($this->uri->segment(2)=='gallery')  echo 'active'; ?>">
+					<?php echo anchor(base_url().SITE_ADMIN_URI.'/gallery','<span class="icon fa fa-file-image-o"></span><span class="title" title="Gallery">Gallery</span>'); ?>
 				</li>
 				
 				<!--<li class="<?php if($this->uri->segment(2)=='email_templates')  echo 'active'; ?>">

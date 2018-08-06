@@ -78,5 +78,7 @@ $route['webservice/department'] = 'webservice/department/index';
 $route['webservice/courses'] = 'webservice/courses/index';
 $route['webservice/course_video'] = 'webservice/course_video/index';
 
+$route['webservice/gallery'] = 'webservice/gallery/index';
+
 $route['webservice/device_token'] = 'webservice/login/device_token';
 $route['webservice/dashboard'] = 'webservice/dashboard';
