@@ -90,6 +90,7 @@
 		{	
 			//$this->db->set('login_count', 'login_count+1', FALSE);
 			$this->db->set('last_login_time', $time);
+			$this->db->set('app_expire_time', date('Y-m-d H:i:s', strtotime("+1 day", strtotime($time))));
 			$this->db->set('app_token', $app_token);
 			$this->db->where('id',$id);			
 			return $this->db->update('users');
@@ -162,9 +163,11 @@
 		
 		public function get_user($id)
 		{
-		 	$this->db->select('*');
+		 	$this->db->select('u.*, states.name as state_name, cities.name as city_name');
 		 	$this->db->from('users u');
-		 	$this->db->where('u.id',$id);
+			$this->db->join('states', 'states.id = u.state', 'left');
+			$this->db->join('cities', 'cities.id = u.city', 'left');
+			$this->db->where('u.id',$id);
 		 	//$this->db->where('u.is_active',1);
 		 	$this->db->where('u.is_deleted',0);
 		 	$query = $this->db->get();
@@ -217,8 +220,18 @@
 							'gender' => $gender,
 							'unit_type' => $unit_type
 						);
-			$this->db->where('user_id',$user_id);		
-			return $this->db->update('profiles', $data);
+			$this->db->where('id',$user_id);		
+			return $this->db->update('users', $data);
+		}
+		
+		public function update_fcmt($user_id,$fcmt)
+		{
+			$data = array(
+							//'modified' => date('Y-m-d H:i:s'),	
+							'fcmt' => $fcmt,
+						);
+			$this->db->where('id',$user_id);		
+			return $this->db->update('users', $data);
 		}
 		
 		public function check_user_old_password($id, $password)
@@ -238,6 +251,22 @@
 			);
 			$this->db->where('id',$id);			
 			return $this->db->update('users',$data);		
+		}
+		
+		public function get_user_by_email_or_username($username){			
+			$this->db->select('*');
+			$this->db->from('users');
+			$this->db->where("(users.email_id='".$username."' OR users.username='".$username."') AND users.is_deleted = 0");	
+			$selectResponse = $this->db->get();
+			return $selectResponse->row_array(); 
+		}
+		
+		public function set_forgot_password($id, $forgot_pwd_token){	
+			$data = array(
+				'forgot_pwd_token' => $forgot_pwd_token
+			);
+			$this->db->where('id',$id);			
+			return $this->db->update('users',$data);
 		}
 		
 	}

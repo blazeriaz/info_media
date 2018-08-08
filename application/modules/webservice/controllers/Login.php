@@ -59,7 +59,8 @@ class Login extends CI_Controller
 							$user_details = $response;			
 							$time = date('Y-m-d H:i:s'); 
 							$token = generate_token($response['id']);							
-							$this->login_model->update_user_webservice($response['id'], $time, $token);
+							$this->login_model->update_user_webservice($response['id'], $time, $token);							
+							$this->login_model->update_fcmt($response['id'],$fcmt);
 							
 							$result['st'] = 1;
 							$result['msg'] = 'Successfully Logged In.';
@@ -159,6 +160,7 @@ class Login extends CI_Controller
 								//$email_activation_code = date("dmY").random_string('numeric', 5).date("his");
 								$token = generate_token($user_datas['id']);
 								$this->login_model->update_user_webservice($user_datas['id'], $time, $token);	
+								$this->login_model->update_fcmt($user_datas['id'],$fcmt);
 								$result['st'] = 1;
 								$result['msg'] = 'Registration done successfully. Verification email is sent to your registered Email ID. Please verify your account to login.';
 								$result['id'] = $user_datas['id'];
@@ -335,6 +337,65 @@ class Login extends CI_Controller
 			echo $response = json_encode($result);
 			return TRUE;
 		}
+					
+		public function forgot_password()
+		{
+			if ($this->input->server('REQUEST_METHOD') === 'POST')
+			{		
+				if (!$this->input->post()){
+					$error = array(			
+									"mail" => "Please enter the email",
+								);
+					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
+					echo $response = json_encode($result);
+					return TRUE;
+				}
+				
+				$this->form_validation->set_rules('mail', 'email', 'trim|required|valid_email');
+				
+				if ($this->form_validation->run())
+				{					
+					$forgot_email = $this->input->post('mail');
+					$response = $this->login_model->get_user_by_email_or_username($forgot_email);
+					if(!empty($response))
+					{
+						//$token = generate_token($response['id']); 
+						$token = mt_rand(100000, 999999);
+						$this->login_model->set_forgot_password($response['id'], $token);
+						
+						$user_email = $response['email_id'];
+						$user_name = $response['username'];
+											
+						$email_config_data = array('[USERNAME]'=> $user_name, 
+									   '[USER_EMAIL]' => $user_email,
+									   '[OTP]' => $token,
+									   '[SITE_NAME]' => $this->config->item('site_name'),
+									   '[SITE_LINK]'=>"<a href='".base_url()."'>Link</a>"
+									   );
+						$to_email = $user_email;
+						$from_email = get_site_settings('emailtemplate.from_email','value');			
+						$template = 'Forgot Password User';							
+						$res = $this->email_template->send_mail($to_email,$from_email,$template,$email_config_data);
+										
+						$result = array( 'success'=> 1 , 'message'=> 'Instructions has been sent to your email address for resetting password' );						
+					}
+					else
+					{
+						$result = array( 'success'=> 0 , 'message'=> 'Email ID does not exists','current_date' => date('Y-m-d'));
+					}					
+				}
+				else
+				{
+					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+				}
+			}
+			else
+			{
+				$result = array( 'ST'=> 0 , 'MSG'=> 'method does not post' ) ;  
+			}
+			echo $response = json_encode($result);
+			return TRUE;
+		}
 		
 		function __encrip_password($password) {
 			return md5($password);
@@ -349,11 +410,13 @@ class Login extends CI_Controller
 			$user = $this->base_model->get_records($table_name, 'id,email_id,app_expire_time,password,app_token', $cond, 'row_array');
 			if(!empty($user)){
 				if( $token == $user['app_token']){  
-					if ($user['app_expire_time'] >= date('Y-m-d h:i:s')) { 
+					if ($user['app_expire_time'] >= date('Y-m-d H:i:s')) { 
 						$result = 'SUCCESS';
-						$this->base_model->update($table_name, array('app_expire_time'=>date('Y-m-d h:i:s', strtotime("+1 days") )) , array('id'=> $user['id']));
+						$this->base_model->update($table_name, array('app_expire_time'=>date('Y-m-d H:i:s', strtotime("+1 days") )) , array('id'=> $user['id']));
+					}else{
+						$result = 'TOKEN_EXPIRED';
 					}
-					$result = 'SUCCESS';
+					//$result = 'SUCCESS';
 				}else
 					$result = 'TOKEN_ERROR';
 			}else {

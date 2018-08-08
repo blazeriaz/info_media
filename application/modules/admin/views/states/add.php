@@ -29,13 +29,20 @@
                     		<?php  $attributes = array('class' => 'form-horizontal','id' => 'cities_form', 'autocomplete'=>'off' );				
 							echo form_open_multipart('', $attributes); ?>
 							
-							<div class="form-group">
+							<!--<div class="form-group">
 								<?php echo form_label('Country <span class="required">*</span>','country_id',array('class'=>'col-sm-2 control-label')); ?>
 								<div class="col-sm-4">
 									<?php
 									$js = 'id="country_id" class="form-control"';
 									echo form_dropdown('country_id', $countries_list,  isset($_POST['country_id'])?$_POST['country_id']:'', $js);
 									if(form_error('country_id')) echo form_label(form_error('country_id'), 'country_id',array("id"=>"country_id-error" , "class"=>"error")); ?>
+								</div>
+							</div>-->
+							<div class="form-group">
+								<?php echo form_label('Country <span class="required">*</span>','state_id',array('class'=>'col-sm-2 control-label')); ?>
+								<div class="col-sm-4">
+									<div class="form-control">India</div>
+									<?php echo form_hidden('country_id', 101);?>
 								</div>
 							</div>
                             <div class="form-group">

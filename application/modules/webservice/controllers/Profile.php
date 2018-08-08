@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Course_video extends CI_Controller
+class Profile extends CI_Controller
 {
 	function __construct()
 	{
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->helper('app_function_helper'); 
-		$this->load->model('course_video_model');
+		//$this->load->model('profile_model');
 		$this->load->model('login_model');
 	}
 	
@@ -31,21 +31,8 @@ class Course_video extends CI_Controller
 				return TRUE;
 			}
 			
-			if (!$this->input->post()){
-				$error = array(			
-								"ID" => "Please enter the course id",
-							);
-				$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
-				echo $response = json_encode($result);
-				return TRUE;
-			}
-			
-			$this->form_validation->set_rules('ID', 'course id','trim|required');
-			
-			if ($this->form_validation->run())
+			if (/*$this->form_validation->run()*/ true)
 			{					
-				$course_id = $this->input->post('ID');
-				
 				$user_by_token = $this->login_model->get_user_by_token($token);
 				
 				if($user_by_token)
@@ -63,24 +50,118 @@ class Course_video extends CI_Controller
 							else
 							{		
 								$data = array();
-								$course_videos = $this->course_video_model->get_course_video($course_id);
+								$user_info = $this->login_model->get_user($user_id);
 								
-								foreach($course_videos as $k=>$course_video)
+								if(!empty($user_id) && !empty($user_info))
 								{
-									$data[$k]['ID'] = $course_video['id'];
-									$data[$k]['N'] = $course_video['name'];						
-									$data[$k]['S'] = $course_video['subscription'];						
-									$data[$k]['VURL'] = $course_video['video_url'];						
-									$data[$k]['IURL'] = $course_video['image_url'];						
-									$data[$k]['V'] = $course_video['view_count'];						
-								}
-								if(!empty($data))
-								{
+									$data['N'] = $user_info['username'];	
+									$data['ID'] = $user_info['id'];	
+									$data['CT'] = $user_info['phone_no'];	
+									$data['MAIL'] = $user_info['email_id'];	
+									$data['DT'] = date("Y-m-d", strtotime($user_info['created']));
+									$data['ADDR'] = $user_info['city_name'];	
+									$data['STATE'] = $user_info['state_name'];	
+									$data['SID'] = $user_info['state'];	
+									$data['DID'] = $user_info['city'];	
+									
 									$result = array( 'ST'=> 1 , 'MSG'=> 'success', 'DATA' => $data); 
 								}
 								else
 								{
 									$result = array( 'ST'=> 0 , 'MSG'=> 'No records found');
+								} 
+							}
+							break;
+						
+						case 'INVALID_USER_ID' :
+							$result = array('ST'=> 2, 'MSG'=> 'Invalid user');
+							break;
+						case 'TOKEN_EXPIRED' :
+							$result = array('ST'=> 2,'MSG'=>'Token Expired');
+							break;
+						case 'TOKEN_ERROR' :
+							$result = array('ST'=> 2,'MSG'=>'Sorry! Your current session has been expired. Please login to continue');
+							break;
+						default : 
+							break;  
+					}
+				}
+				else{
+					$result = array('ST'=> 2,'MSG'=>'Token Expired');
+				}					
+			}
+			else
+			{
+				$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+			}
+		}
+		else
+		{
+			$result = array( 'ST'=> 0 , 'MSG'=> 'method does not post' ) ;  
+		}
+		echo $response = json_encode($result);
+		return TRUE;
+	}
+
+	public function update_fcmt()
+	{
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{							
+			$token =$this->input->get_request_header('authorization', TRUE);
+			if($token)
+			{
+				$exist_token = $this->login_model->get_user_by_token($token);
+				if(!$exist_token){
+					$result = array( 'ST'=> 0 , 'MSG'=> 'authorization not matched' ) ;  
+					echo $response = json_encode($result);
+					return TRUE;
+				}
+			}
+			else{
+				$result = array( 'ST'=> 0 , 'MSG'=> 'authorization required' ) ;  
+				echo $response = json_encode($result);
+				return TRUE;
+			}
+			
+			if (!$this->input->post()){
+				$error = array(			
+								"fcmt" => "Please enter the fcmt",
+							);
+				$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
+				echo $response = json_encode($result);
+				return TRUE;
+			}
+			
+			$this->form_validation->set_rules('fcmt', 'FCMT','trim|required');
+			
+			if ($this->form_validation->run())
+			{					
+				$user_by_token = $this->login_model->get_user_by_token($token);
+				
+				if($user_by_token)
+				{
+					$user_id = $user_by_token['id'];
+					$fcmt = $this->input->post('fcmt');
+					$response = $this->check_user_token($user_id, $token, 'users' ); 
+					switch(trim($response))
+					{
+						case 'SUCCESS' :
+							$user_datas = $this->login_model->check_user_token($user_id);
+							if($user_datas['status'] == 0)		
+							{
+								$result = array('ST'=> 2, 'MSG'=> 'Your account not yet activated. Please active via you entered email address or contact admin for account activation');
+							}
+							else
+							{		
+								$update_fcmt = $this->login_model->update_fcmt($user_id,$fcmt);
+								
+								if(!empty($update_fcmt))
+								{
+									$result = array( 'ST'=> 1 , 'MSG'=> 'fcmt updated'); 
+								}
+								else
+								{
+									$result = array( 'ST'=> 0 , 'MSG'=> 'fcmt not updated');
 								} 
 							}
 							break;

@@ -123,4 +123,31 @@ ALTER TABLE `gallery` CHANGE `datatime` `datetime` DATETIME NOT NULL;
 
 
 
+/*---------------------------------08-08-2018----------------------------------------------*/
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+CREATE TABLE `help_support` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `support_query` text NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `help_support`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `help_support`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  
+
+ALTER TABLE `users` ADD `forgot_pwd_token` VARCHAR(255) NOT NULL AFTER `is_deleted`;
+
+
+
 

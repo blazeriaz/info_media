@@ -23,9 +23,9 @@
 					<?php echo anchor('#dropdown-table','<span class="icon fa fa-sitemap"></span><span class="title" title="Masters">Masters</span>', array('data-toggle'=>'collapse','data-parent'=>'#panel-parent') ); ?>
 					<div id="dropdown-table" class="panel-collapse collapse <?php if($this->uri->segment(2)=='countries' || $this->uri->segment(2)=='states' || $this->uri->segment(2)=='cities')  echo 'in'; ?>">
 						<div class="panel-body">
-							<ul class="nav navbar-nav">
+							<!--<ul class="nav navbar-nav">
 								<li class="<?php if($this->uri->segment(2)=='countries' ) echo 'subactive';?>" ><?php echo anchor(base_url().SITE_ADMIN_URI.'/countries', '<span title="Countries">Countries</span>'); ?></li>
-							</ul>
+							</ul>-->
 							<ul class="nav navbar-nav">
 								<li class="<?php if($this->uri->segment(2)=='states' ) echo 'subactive';?>" ><?php echo anchor(base_url().SITE_ADMIN_URI.'/states', '<span title="States">States</span>'); ?></li>
 							</ul>

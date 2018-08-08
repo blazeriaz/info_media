@@ -29,7 +29,7 @@
                     		<?php  $attributes = array('class' => 'form-horizontal','id' => 'cities_form_id');				
 							echo form_open_multipart('', $attributes); ?>
 							
-							<div class="form-group">
+							<!--<div class="form-group">
 								<?php echo form_label('Country <span class="required">*</span>','country_id',array('class'=>'col-sm-2 control-label')); ?>
 								<div class="col-sm-4">
 									<?php
@@ -38,8 +38,14 @@
 									echo form_dropdown('country_id', $countries_list,$set_country, $js);
 									if(form_error('country_id')) echo form_label(form_error('country_id'), 'country_id',array("id"=>"country_id-error" , "class"=>"error")); ?>
 								</div>
+							</div>-->
+							<div class="form-group">
+								<?php echo form_label('Country <span class="required">*</span>','state_id',array('class'=>'col-sm-2 control-label')); ?>
+								<div class="col-sm-4">
+									<div class="form-control">India</div>
+									<?php echo form_hidden('country_id', 101);?>
+								</div>
 							</div>
-
                             <div class="form-group">
                             	<?php echo form_label('Name <span class="required">*</span>','name',array('class'=>'col-sm-2 control-label')); ?>
                                 <div class="col-sm-4">

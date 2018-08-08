@@ -72,13 +72,13 @@ class States extends Admin_Controller
 		
 		$fields = 'st.id,st.name as state_name,st.state_code,co.name as country_name,st.status';
 		$join_tables[] = array('countries co','co.id=st.country_id','inner');
-		//$where[] = array( FALSE,"(st.country_id = 101)"); // India
+		$where[] = array( FALSE,"(st.country_id = 101)"); // India
 		$data['total_rows'] = $config['total_rows'] = $this->base_model->get_advance_list('states st', $join_tables, $fields, $where, 'num_rows','','','st.id');
 		$data['states'] = $this->base_model->get_advance_list('states st', $join_tables, $fields, $where, '', 'st.id', 'desc', 'st.id', $limit_start, $limit_end);
 		$this->pagination->initialize($config);
 		$data['countries_list'] = $this->base_model->getArrayList('countries');
 		$data['main_content'] = 'states/index';
-		$data['page_title']  = 'states'; 
+		$data['page_title']  = 'States'; 
 		$this->load->view(ADMIN_LAYOUT_PATH, $data); 	
 
 	}

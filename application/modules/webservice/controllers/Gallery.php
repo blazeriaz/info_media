@@ -110,11 +110,13 @@ class Gallery extends CI_Controller
 		$user = $this->base_model->get_records($table_name, 'id,email_id,app_expire_time,password,app_token', $cond, 'row_array');
 		if(!empty($user)){
 			if( $token == $user['app_token']){  
-				if ($user['app_expire_time'] >= date('Y-m-d h:i:s')) { 
+				if ($user['app_expire_time'] >= date('Y-m-d H:i:s')) { 
 					$result = 'SUCCESS';
-					$this->base_model->update($table_name, array('app_expire_time'=>date('Y-m-d h:i:s', strtotime("+1 days") )) , array('id'=> $user['id']));
+					$this->base_model->update($table_name, array('app_expire_time'=>date('Y-m-d H:i:s', strtotime("+1 days") )) , array('id'=> $user['id']));
+				}else{
+					$result = 'TOKEN_EXPIRED';
 				}
-				$result = 'SUCCESS';
+				//$result = 'SUCCESS';
 			}else
 				$result = 'TOKEN_ERROR';
 		}else {

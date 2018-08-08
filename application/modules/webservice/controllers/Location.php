@@ -52,7 +52,7 @@ class Location extends CI_Controller
 		$result = array(); 
 		if ($this->input->server('REQUEST_METHOD') === 'POST')
 	{ 
-			if (!$this->input->post()){
+			/*if (!$this->input->post()){
 				$error = array(			
 								"country_id" => "Please enter the country",
 							);
@@ -60,11 +60,12 @@ class Location extends CI_Controller
 				echo $response = json_encode($result);
 				return TRUE;
 			}
-			$this->form_validation->set_rules('country_id', 'country', 'trim|required'); 
-			if($this->form_validation->run())
+			$this->form_validation->set_rules('country_id', 'country', 'trim|required'); */
+			if(/*$this->form_validation->run()*/ true)
 			{
 				$data = array();
-				$country_id = $this->input->post('country_id');
+				//$country_id = $this->input->post('country_id');
+				$country_id = 101;
 				$states = $this->location_model->get_states($country_id);
 
 				foreach($states as $k=>$state)
@@ -101,17 +102,17 @@ class Location extends CI_Controller
 		{ 
 			if (!$this->input->post()){
 				$error = array(			
-								"state_id" => "Please enter the state",
+								"stat" => "Please enter the state",
 							);
 				$result = array( 'st'=> 0 , 'msg'=> 'validation error' , 'errors'=> $error);
 				echo $response = json_encode($result);
 				return TRUE;
 			}
-			$this->form_validation->set_rules('state_id', 'state', 'trim|required'); 
+			$this->form_validation->set_rules('stat', 'state', 'trim|required'); 
 			if($this->form_validation->run())
 			{
 				$data = array();
-				$state_id = $this->input->post('state_id');
+				$state_id = $this->input->post('stat');
 				$cities = $this->location_model->get_cities($state_id);
 
 				foreach($cities as $k=>$city)

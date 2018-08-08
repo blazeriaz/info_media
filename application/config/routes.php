@@ -73,12 +73,18 @@ $route[SITE_ADMIN_URI.'/email_templates/edit/(:num)'] = 'admin/email_templates/e
 $route['webservice/login'] = 'webservice/login/login';
 $route['webservice/register'] = 'webservice/login/register';
 $route['webservice/change-password'] = 'webservice/login/change_password';
+$route['webservice/forgot-password'] = 'webservice/login/forgot_password';
 
 $route['webservice/department'] = 'webservice/department/index';
 $route['webservice/courses'] = 'webservice/courses/index';
 $route['webservice/course_video'] = 'webservice/course_video/index';
 
 $route['webservice/gallery'] = 'webservice/gallery/index';
+$route['webservice/profile'] = 'webservice/profile/index';
+$route['webservice/update_fcmt'] = 'webservice/profile/update_fcmt';
+
+$route['webservice/new_help_support_query'] = 'webservice/help_and_support/new_help_support_query';
+$route['webservice/help_and_support'] = 'webservice/help_and_support/index';
 
 $route['webservice/device_token'] = 'webservice/login/device_token';
 $route['webservice/dashboard'] = 'webservice/dashboard';

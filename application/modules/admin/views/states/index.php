@@ -41,10 +41,10 @@
 									<div class="col-sm-3">
 										<?php echo form_input('search_name',$keyword_name,'placeholder= "Search Name" class="form-control" id="search_name"'); ?>
 									</div>
-									<div class="col-sm-3">
+									<!--<div class="col-sm-3">
 										<?php $countries_list[''] = 'Select Country Name'; ?>
 										<?php echo form_dropdown('search_country',$countries_list,$keyword_search_country,'placeholder= "Search Country" class="form-control" id="search_country"'); ?>
-									</div>
+									</div>-->
 		        					<div class="col-sm-2  col-lg-2">
 		        					<?php $submit_val = array('name' => 'submit-search', 'class' => 'btn btn-default full-width-btn', 'value' => 'Search', 'title' => 'Search');
 		        					echo form_submit($submit_val);?>
