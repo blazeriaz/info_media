@@ -74,6 +74,8 @@ $route['webservice/login'] = 'webservice/login/login';
 $route['webservice/register'] = 'webservice/login/register';
 $route['webservice/change-password'] = 'webservice/login/change_password';
 $route['webservice/forgot-password'] = 'webservice/login/forgot_password';
+$route['webservice/verify_reset_password'] = 'webservice/login/verify_reset_password';
+$route['webservice/action_reset_password'] = 'webservice/login/action_reset_password';
 
 $route['webservice/department'] = 'webservice/department/index';
 $route['webservice/courses'] = 'webservice/courses/index';

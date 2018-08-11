@@ -127,7 +127,7 @@
 		
 		public function get_user_by_email($mailid)
 		{			
-			$this->db->select('users.id, users.email_id, users.is_email_verified, users.is_active, users.status');
+			$this->db->select('*');
 			$this->db->from('users');
 			$this->db->where("users.email_id='".$mailid."' AND users.is_deleted = 0");	
 			$selectResponse = $this->db->get();
@@ -136,7 +136,7 @@
 		
 		public function get_user_by_mobile($mobile)
 		{			
-			$this->db->select('users.id, users.email_id, users.is_email_verified, users.is_active, users.status');
+			$this->db->select('*');
 			$this->db->from('users');
 			$this->db->where("users.phone_no='".$mobile."' AND users.is_deleted = 0");	
 			$selectResponse = $this->db->get();
@@ -145,7 +145,7 @@
 		
 		public function get_user_by_username($username)
 		{			
-			$this->db->select('users.id, users.email_id, users.is_email_verified, users.is_active, users.status');
+			$this->db->select('*');
 			$this->db->from('users');
 			$this->db->where("users.username='".$username."' AND users.is_deleted = 0");	
 			$selectResponse = $this->db->get();
@@ -267,6 +267,14 @@
 			);
 			$this->db->where('id',$id);			
 			return $this->db->update('users',$data);
+		}
+		
+		public function get_user_by_forgot_pwd_token($forgot_pwd_token){					
+			$this->db->select('users.username, users.id, users.email_id, users.last_login_time, users.is_email_confirmed, users.is_active');
+			$this->db->from('users');
+			$this->db->where("users.forgot_pwd_token='".$forgot_pwd_token."'");		
+			$selectResponse = $this->db->get();
+			return $selectResponse->row_array(); 
 		}
 		
 	}

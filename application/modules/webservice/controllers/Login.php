@@ -356,7 +356,7 @@ class Login extends CI_Controller
 				if ($this->form_validation->run())
 				{					
 					$forgot_email = $this->input->post('mail');
-					$response = $this->login_model->get_user_by_email_or_username($forgot_email);
+					$response = $this->login_model->get_user_by_email($forgot_email);
 					if(!empty($response))
 					{
 						//$token = generate_token($response['id']); 
@@ -377,11 +377,11 @@ class Login extends CI_Controller
 						$template = 'Forgot Password User';							
 						$res = $this->email_template->send_mail($to_email,$from_email,$template,$email_config_data);
 										
-						$result = array( 'success'=> 1 , 'message'=> 'Instructions has been sent to your email address for resetting password' );						
+						$result = array( 'ST'=> 1 , 'MSG'=> 'Instructions has been sent to your email address for resetting password' );						
 					}
 					else
 					{
-						$result = array( 'success'=> 0 , 'message'=> 'Email ID does not exists','current_date' => date('Y-m-d'));
+						$result = array( 'ST'=> 0 , 'MSG'=> 'Email ID does not exists');
 					}					
 				}
 				else
@@ -395,6 +395,94 @@ class Login extends CI_Controller
 			}
 			echo $response = json_encode($result);
 			return TRUE;
+		}
+					
+		public function verify_reset_password()
+		{
+			if ($this->input->server('REQUEST_METHOD') === 'POST')
+			{		
+				if (!$this->input->post()){
+					$error = array(			
+									"mail" => "Please enter the email",
+									"otp" => "Please enter the OTP",
+								);
+					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
+					echo $response = json_encode($result);
+					return TRUE;
+				}
+				
+				$this->form_validation->set_rules('mail', 'email', 'trim|required|valid_email');
+				$this->form_validation->set_rules('otp', 'otp', 'trim|required');
+				
+				if ($this->form_validation->run())
+				{					
+					$forgot_email = $this->input->post('mail');
+					$otp = $this->input->post('otp');
+					$response = $this->login_model->get_user_by_email($forgot_email);
+					if(!empty($response))
+					{
+						if($response['forgot_pwd_token']==$otp){	
+							$result = array( 'ST'=> 1 , 'MSG'=> 'OTP verified successfully.' );	
+						}else{
+							$result = array( 'ST'=> 0 , 'MSG'=> 'OTP mismatched.' );	
+						}					
+					}
+					else
+					{
+						$result = array( 'ST'=> 0 , 'MSG'=> 'Email ID does not exists','current_date' => date('Y-m-d'));
+					}					
+				}
+				else
+				{
+					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+				}
+			}
+			else
+			{
+				$result = array( 'ST'=> 0 , 'MSG'=> 'method does not post' ) ;  
+			}
+			echo $response = json_encode($result);
+			return TRUE;
+		}		
+		
+		public function action_reset_password(){
+			if ($this->input->server('REQUEST_METHOD') === 'POST'){
+				if (!$this->input->post()){
+					$error = array(			
+									"mail" => "Please enter the email",
+									"pwd" => "Please enter the password",
+								);
+					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
+					echo $response = json_encode($result);
+					return TRUE;
+				}
+				$reset_email_id = $this->input->post('mail');
+				$new_pass = $this->input->post('pwd');				
+				$this->form_validation->set_rules('pwd', 'Password','trim|required');
+				if ($this->form_validation->run() == True){	
+					$count = $this->base_model->getCount('users', array('email_id' => $reset_email_id));				
+					if (empty($count)) {
+						$result = array( 'ST'=> 0 , 'MSG'=> 'Email not matched' );
+					}else {
+						$new_member_insert_data = array(
+							'password' => md5($new_pass),
+						);
+						$update = $this->base_model->update('users', $new_member_insert_data, array('email_id' => $reset_email_id));
+						$token = "";
+						$response = $this->login_model->get_user_by_email($reset_email_id);
+						if(!empty($response))
+						{
+							$this->login_model->set_forgot_password($response['id'], $token);
+						}						
+						$result = array( 'ST'=> 1 , 'MSG'=> 'Successfully changed reset password' );
+					}
+					echo json_encode($result);	
+					
+				}else{
+					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+					echo json_encode($result);		
+				}	
+			}
 		}
 		
 		function __encrip_password($password) {
