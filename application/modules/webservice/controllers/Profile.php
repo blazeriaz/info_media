@@ -92,7 +92,9 @@ class Profile extends CI_Controller
 			}
 			else
 			{
-				$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+				$error = $this->form_validation->error_array();
+				$MSG = implode("<br>",$error);
+				$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 			}
 		}
 		else
@@ -127,7 +129,8 @@ class Profile extends CI_Controller
 				$error = array(			
 								"fcmt" => "Please enter the fcmt",
 							);
-				$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
+				$MSG = implode("<br>",$error);
+				$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 				echo $response = json_encode($result);
 				return TRUE;
 			}
@@ -185,7 +188,9 @@ class Profile extends CI_Controller
 			}
 			else
 			{
-				$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+				$error = $this->form_validation->error_array();
+				$MSG = implode("<br>",$error);
+				$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 			}
 		}
 		else

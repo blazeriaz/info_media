@@ -249,6 +249,18 @@ class Login extends CI_Controller
 					echo $response = json_encode($result);
 					return TRUE;
 				}
+									
+				if (!$this->input->post()){
+					$error = array(			
+									"opwd" => "Please enter the old password",
+									"pwd" => "Please enter the new password",
+								);
+					$MSG = implode("<br>",$error);
+					$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
+					echo $response = json_encode($result);
+					return TRUE;
+				}
+								
 				$this->form_validation->set_rules('opwd', 'old password','trim|required');
 				$this->form_validation->set_rules('pwd', 'password', 'trim|required'); 		
 				//$this->form_validation->set_rules('id', 'user id', 'trim|required'); 		
