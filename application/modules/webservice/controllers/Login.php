@@ -34,7 +34,7 @@ class Login extends CI_Controller
 									"v" => "Please enter the login type",
 									"fcmt" => "Please enter the fcmt",
 								);
-					$result = array( 'st'=> 0 , 'msg'=> 'validation error' , 'errors'=> $error);
+					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
 					echo $response = json_encode($result);
 					return TRUE;
 				}
@@ -62,25 +62,25 @@ class Login extends CI_Controller
 							$this->login_model->update_user_webservice($response['id'], $time, $token);							
 							$this->login_model->update_fcmt($response['id'],$fcmt);
 							
-							$result['st'] = 1;
-							$result['msg'] = 'Successfully Logged In.';
-							$result['id'] = $user_details['id'];
-							$result['tn'] = $token;
-							//$result['n'] = $user_details['first_name'] . " ". $user_details['last_name'];
-							$result['n'] = $user_details['username'];
-							$result['un'] = $user_details['username'];
-							$result['mail'] = $user_details['email_id'];
+							$result['ST'] = 1;
+							$result['MSG'] = 'Successfully Logged In.';
+							$result['ID'] = $user_details['id'];
+							$result['TN'] = $token;
+							//$result['N'] = $user_details['first_name'] . " ". $user_details['last_name'];
+							$result['N'] = $user_details['username'];
+							//$result['UN'] = $user_details['username'];
+							$result['MAIL'] = $user_details['email_id'];
 						}else{
-							$result = array('st'=> 0, 'msg'=> 'Your account has not activated' ); 
+							$result = array('ST'=> 0, 'MSG'=> 'Your account has not activated' ); 
 						}
 					}else{
-						$result = array('st'=> 0, 'msg'=> 'Invalid Login Credentials' ); 
+						$result = array('ST'=> 0, 'MSG'=> 'Invalid Login Credentials' ); 
 					}
 				}else{
-					$result = array( 'st'=> 0 , 'msg'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
 				}
 			}else{
-				$result = array( 'st'=> 0 , 'msg'=> 'method does not post' ) ;  
+				$result = array( 'ST'=> 0 , 'MSG'=> 'method does not post' ) ;  
 			} 
 			echo $response = json_encode($result);
 			return TRUE;
@@ -107,7 +107,7 @@ class Login extends CI_Controller
 									"t" => "Please enter the type",
 									"fcmt" => "Please enter the fcmt",
 								);
-					$result = array( 'st'=> 0 , 'msg'=> 'validation error' , 'errors'=> $error);
+					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
 					echo $response = json_encode($result);
 					return TRUE;
 				}
@@ -136,19 +136,19 @@ class Login extends CI_Controller
 						$exist_mobile = $this->login_model->get_user_by_mobile($mobile);
 						if(!empty($exist_email) && !empty($exist_mobile) && !empty($exist_username))
 						{
-							$result = array( 'st'=> 0 , 'msg'=> 'This email address, username & mobile no already exists. Please enter unique email address, username & mobile number.' ) ;  
+							$result = array( 'ST'=> 0 , 'MSG'=> 'This email address, username & mobile no already exists. Please enter unique email address, username & mobile number.' ) ;  
 						}
 						elseif(!empty($exist_email))
 						{
-							$result = array( 'st'=> 0 , 'msg'=> 'This email address already exists. Please enter unique email address.' ) ;  
+							$result = array( 'ST'=> 0 , 'MSG'=> 'This email address already exists. Please enter unique email address.' ) ;  
 						}
 						elseif(!empty($exist_username))
 						{
-							$result = array( 'st'=> 0 , 'msg'=> 'This username already exists. Please enter unique username.' ) ;  
+							$result = array( 'ST'=> 0 , 'MSG'=> 'This username already exists. Please enter unique username.' ) ;  
 						}
 						elseif(!empty($exist_mobile))
 						{
-							$result = array( 'st'=> 0 , 'msg'=> 'This mobile number already exists. Please enter unique mobile number.' ) ;  
+							$result = array( 'ST'=> 0 , 'MSG'=> 'This mobile number already exists. Please enter unique mobile number.' ) ;  
 						}
 						else
 						{						
@@ -161,14 +161,14 @@ class Login extends CI_Controller
 								$token = generate_token($user_datas['id']);
 								$this->login_model->update_user_webservice($user_datas['id'], $time, $token);	
 								$this->login_model->update_fcmt($user_datas['id'],$fcmt);
-								$result['st'] = 1;
-								$result['msg'] = 'Registration done successfully. Verification email is sent to your registered Email ID. Please verify your account to login.';
-								$result['id'] = $user_datas['id'];
-								$result['tn'] = $token;
-								//$result['n'] = $user_datas['first_name'] . " ". $user_datas['last_name'];
-								$result['n'] = $user_datas['username'];
-								$result['un'] = $user_datas['username'];
-								$result['mail'] = $user_datas['email_id'];
+								$result['ST'] = 1;
+								$result['MSG'] = 'Registration done successfully. Verification email is sent to your registered Email ID. Please verify your account to login.';
+								$result['ID'] = $user_datas['id'];
+								$result['TN'] = $token;
+								//$result['N'] = $user_datas['first_name'] . " ". $user_datas['last_name'];
+								$result['N'] = $user_datas['username'];
+								//$result['UN'] = $user_datas['username'];
+								$result['MAIL'] = $user_datas['email_id'];
 								
 								$user_email = $user_datas['email_id'];
 								$user_name = $user_datas['username'];
@@ -187,7 +187,7 @@ class Login extends CI_Controller
 								$res = $this->email_template->send_mail($to_email,$from_email,$template,$email_config_data);
 								
 							}else{
-								$result = array( 'st'=> 0 , 'msg'=> 'Registration not successfully.') ;
+								$result = array( 'ST'=> 0 , 'MSG'=> 'Registration not successfully.') ;
 							}										
 						}
 					}
@@ -206,12 +206,12 @@ class Login extends CI_Controller
 				}
 				else
 				{
-					$result = array( 'st'=> 0 , 'msg'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
 				}
 			}
 			else
 			{
-				$result = array( 'st'=> 0 , 'msg'=> 'method does not post' ) ;  
+				$result = array( 'ST'=> 0 , 'MSG'=> 'method does not post' ) ;  
 			}
 			echo $response = json_encode($result);
 			return TRUE;
@@ -233,13 +233,13 @@ class Login extends CI_Controller
 				{
 					$exist_token = $this->login_model->get_user_by_token($token);
 					if(!$exist_token){
-						$result = array( 'st'=> 0 , 'msg'=> 'authorization not matched' ) ;  
+						$result = array( 'ST'=> 0 , 'MSG'=> 'authorization not matched' ) ;  
 						echo $response = json_encode($result);
 						return TRUE;
 					}
 				}
 				else{
-					$result = array( 'st'=> 0 , 'msg'=> 'authorization required' ) ;  
+					$result = array( 'ST'=> 0 , 'MSG'=> 'authorization required' ) ;  
 					echo $response = json_encode($result);
 					return TRUE;
 				}
@@ -264,7 +264,7 @@ class Login extends CI_Controller
 								$user_datas = $this->login_model->check_user_token($user_id);
 								if($user_datas['status'] == 0)		
 								{
-									$result = array('st'=> 2, 'msg'=> 'Your account not yet activated. Please active via you entered email address or contact admin for account activation');
+									$result = array('ST'=> 2, 'MSG'=> 'Your account not yet activated. Please active via you entered email address or contact admin for account activation');
 								}
 								else
 								{
@@ -294,45 +294,45 @@ class Login extends CI_Controller
 												$res = $this->email_template->send_mail($to_email,$from_email,$template,$email_config_data);
 											}
 											
-											$result = array('st'=> 1 , 'msg'=> 'Your account password has been changed successfully. Please login to continue');
+											$result = array('ST'=> 1 , 'MSG'=> 'Your account password has been changed successfully. Please login to continue');
 										}
 										else{
-											$result = array('st'=> 0 , 'msg'=> "Your current password is wrong");
+											$result = array('ST'=> 0 , 'MSG'=> "Your current password is wrong");
 										}
 									}
 									else
 									{
-										$result = array('st'=> 0 , 'msg'=> "Your current password and new password should not be same");
+										$result = array('ST'=> 0 , 'MSG'=> "Your current password and new password should not be same");
 									}
 									
 								}
 								break;
 							
 							case 'INVALID_USER_ID' :
-								$result = array('st'=> 2, 'msg'=> 'Invalid user');
+								$result = array('ST'=> 2, 'MSG'=> 'Invalid user');
 								break;
 							case 'TOKEN_EXPIRED' :
-								$result = array('st'=> 2,'msg'=>'Token Expired');
+								$result = array('ST'=> 2,'MSG'=>'Token Expired');
 								break;
 							case 'TOKEN_ERROR' :
-								$result = array('st'=> 2,'msg'=>'Sorry! Your current session has been expired. Please login to continue');
+								$result = array('ST'=> 2,'MSG'=>'Sorry! Your current session has been expired. Please login to continue');
 								break;
 							default : 
 								break;  
 						}
 					}
 					else{
-						$result = array('st'=> 2,'msg'=>'Token Expired');
+						$result = array('ST'=> 2,'MSG'=>'Token Expired');
 					}					
 				}
 				else
 				{
-					$result = array( 'st'=> 0 , 'msg'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
 				}
 			}
 			else
 			{
-				$result = array( 'st'=> 0 , 'msg'=> 'method does not post' ) ;  
+				$result = array( 'ST'=> 0 , 'MSG'=> 'method does not post' ) ;  
 			}
 			echo $response = json_encode($result);
 			return TRUE;
@@ -429,7 +429,7 @@ class Login extends CI_Controller
 					}
 					else
 					{
-						$result = array( 'ST'=> 0 , 'MSG'=> 'Email ID does not exists','current_date' => date('Y-m-d'));
+						$result = array( 'ST'=> 0 , 'MSG'=> 'Email ID does not exists');
 					}					
 				}
 				else

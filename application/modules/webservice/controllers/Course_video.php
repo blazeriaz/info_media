@@ -33,18 +33,18 @@ class Course_video extends CI_Controller
 			
 			if (!$this->input->post()){
 				$error = array(			
-								"ID" => "Please enter the course id",
+								"id" => "Please enter the course id",
 							);
 				$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
 				echo $response = json_encode($result);
 				return TRUE;
 			}
 			
-			$this->form_validation->set_rules('ID', 'course id','trim|required');
+			$this->form_validation->set_rules('id', 'course id','trim|required');
 			
 			if ($this->form_validation->run())
 			{					
-				$course_id = $this->input->post('ID');
+				$course_id = $this->input->post('id');
 				
 				$user_by_token = $this->login_model->get_user_by_token($token);
 				

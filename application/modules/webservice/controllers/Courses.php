@@ -33,18 +33,18 @@ class Courses extends CI_Controller
 			
 			if (!$this->input->post()){
 				$error = array(			
-								"ID" => "Please enter the department id",
+								"id" => "Please enter the department id",
 							);
 				$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
 				echo $response = json_encode($result);
 				return TRUE;
 			}
 			
-			$this->form_validation->set_rules('ID', 'department id','trim|required');
+			$this->form_validation->set_rules('id', 'department id','trim|required');
 			
 			if ($this->form_validation->run())
 			{					
-				$department_id = $this->input->post('ID');
+				$department_id = $this->input->post('id');
 				
 				$user_by_token = $this->login_model->get_user_by_token($token);
 				

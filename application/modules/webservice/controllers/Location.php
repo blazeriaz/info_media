@@ -27,21 +27,21 @@ class Location extends CI_Controller
 				}
 				if(!empty($data))
 				{
-					$result = array( 'st'=> 1 , 'msg'=> 'success', 'data' => $data); 
+					$result = array( 'ST'=> 1 , 'MSG'=> 'success', 'DATA' => $data); 
 				}
 				else
 				{
-					$result = array( 'st'=> 0 , 'msg'=> 'No records found');
+					$result = array( 'ST'=> 0 , 'MSG'=> 'No records found');
 				} 
 			}
 			else
 			{
-				$result = array('st'=> 0 , 'msg'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+				$result = array('ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
 			}
 		}
 		else
 		{
-			$result = array( 'st'=> 0 , 'msg'=> 'method does not post' ) ;  
+			$result = array( 'ST'=> 0 , 'MSG'=> 'method does not post' ) ;  
 		} 
 		echo $response = json_encode($result);
 		return TRUE;
@@ -56,7 +56,7 @@ class Location extends CI_Controller
 				$error = array(			
 								"country_id" => "Please enter the country",
 							);
-				$result = array( 'st'=> 0 , 'msg'=> 'validation error' , 'errors'=> $error);
+				$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
 				echo $response = json_encode($result);
 				return TRUE;
 			}
@@ -75,21 +75,21 @@ class Location extends CI_Controller
 				}
 				if(!empty($data))
 				{
-					$result = array( 'st'=> 1 , 'msg'=> 'success', 'data' => $data); 
+					$result = array( 'ST'=> 1 , 'MSG'=> 'success', 'DATA' => $data); 
 				}
 				else
 				{
-					$result = array( 'st'=> 0 , 'msg'=> 'No records found');
+					$result = array( 'ST'=> 0 , 'MSG'=> 'No records found');
 				} 
 			}
 			else
 			{
-				$result = array('st'=> 0 , 'msg'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+				$result = array('ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
 			}
 		}
 		else
 		{
-			$result = array( 'st'=> 0 , 'msg'=> 'method does not post' ) ;  
+			$result = array( 'ST'=> 0 , 'MSG'=> 'method does not post' ) ;  
 		} 
 		echo $response = json_encode($result);
 		return TRUE;
@@ -104,7 +104,7 @@ class Location extends CI_Controller
 				$error = array(			
 								"stat" => "Please enter the state",
 							);
-				$result = array( 'st'=> 0 , 'msg'=> 'validation error' , 'errors'=> $error);
+				$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
 				echo $response = json_encode($result);
 				return TRUE;
 			}
@@ -122,21 +122,21 @@ class Location extends CI_Controller
 				}
 				if(!empty($data))
 				{
-					$result = array( 'st'=> 1 , 'msg'=> 'success', 'data' => $data); 
+					$result = array( 'ST'=> 1 , 'MSG'=> 'success', 'DATA' => $data); 
 				}
 				else
 				{
-					$result = array( 'st'=> 0 , 'msg'=> 'No records found');
+					$result = array( 'ST'=> 0 , 'MSG'=> 'No records found');
 				} 
 			}
 			else
 			{
-				$result = array('st'=> 0 , 'msg'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+				$result = array('ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
 			}
 		}
 		else
 		{
-			$result = array( 'st'=> 0 , 'msg'=> 'method does not post' ) ;  
+			$result = array( 'ST'=> 0 , 'MSG'=> 'method does not post' ) ;  
 		} 
 		echo $response = json_encode($result);
 		return TRUE;
