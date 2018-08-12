@@ -90,7 +90,9 @@ class Gallery extends CI_Controller
 			}
 			else
 			{
-				$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+				$error = $this->form_validation->error_array();
+				$MSG = implode("<br>",$error);
+				$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 			}
 		}
 		else

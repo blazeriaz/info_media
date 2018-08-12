@@ -34,7 +34,8 @@ class Login extends CI_Controller
 									"v" => "Please enter the login type",
 									"fcmt" => "Please enter the fcmt",
 								);
-					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
+					$MSG = implode("<br>",$error);
+					$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 					echo $response = json_encode($result);
 					return TRUE;
 				}
@@ -77,7 +78,9 @@ class Login extends CI_Controller
 						$result = array('ST'=> 0, 'MSG'=> 'Invalid Login Credentials' ); 
 					}
 				}else{
-					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+					$error = $this->form_validation->error_array();
+					$MSG = implode("<br>",$error);
+					$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 				}
 			}else{
 				$result = array( 'ST'=> 0 , 'MSG'=> 'method does not post' ) ;  
@@ -107,7 +110,8 @@ class Login extends CI_Controller
 									"t" => "Please enter the type",
 									"fcmt" => "Please enter the fcmt",
 								);
-					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
+					$MSG = implode("<br>",$error);
+					$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 					echo $response = json_encode($result);
 					return TRUE;
 				}
@@ -206,7 +210,9 @@ class Login extends CI_Controller
 				}
 				else
 				{
-					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+					$error = $this->form_validation->error_array();
+					$MSG = implode("<br>",$error);
+					$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 				}
 			}
 			else
@@ -327,7 +333,9 @@ class Login extends CI_Controller
 				}
 				else
 				{
-					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+					$error = $this->form_validation->error_array();
+					$MSG = implode("<br>",$error);
+					$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 				}
 			}
 			else
@@ -346,7 +354,8 @@ class Login extends CI_Controller
 					$error = array(			
 									"mail" => "Please enter the email",
 								);
-					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
+					$MSG = implode("<br>",$error);
+					$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 					echo $response = json_encode($result);
 					return TRUE;
 				}
@@ -386,7 +395,9 @@ class Login extends CI_Controller
 				}
 				else
 				{
-					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+					$error = $this->form_validation->error_array();
+					$MSG = implode("<br>",$error);
+					$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 				}
 			}
 			else
@@ -406,7 +417,8 @@ class Login extends CI_Controller
 									"mail" => "Please enter the email",
 									"otp" => "Please enter the OTP",
 								);
-					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
+					$MSG = implode("<br>",$error);
+					$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 					echo $response = json_encode($result);
 					return TRUE;
 				}
@@ -434,7 +446,9 @@ class Login extends CI_Controller
 				}
 				else
 				{
-					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+					$error = $this->form_validation->error_array();
+					$MSG = implode("<br>",$error);
+					$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 				}
 			}
 			else
@@ -452,7 +466,8 @@ class Login extends CI_Controller
 									"mail" => "Please enter the email",
 									"pwd" => "Please enter the password",
 								);
-					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $error);
+					$MSG = implode("<br>",$error);
+					$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 					echo $response = json_encode($result);
 					return TRUE;
 				}
@@ -479,7 +494,9 @@ class Login extends CI_Controller
 					echo json_encode($result);	
 					
 				}else{
-					$result = array( 'ST'=> 0 , 'MSG'=> 'validation error' , 'errors'=> $this->form_validation->error_array());
+					$error = $this->form_validation->error_array();
+					$MSG = implode("<br>",$error);
+					$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
 					echo json_encode($result);		
 				}	
 			}
