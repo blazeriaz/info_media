@@ -50,7 +50,7 @@ class Help_and_support extends CI_Controller
 							else
 							{		
 								$data = array();
-								$help_and_supports = $this->help_and_support_model->get_help_and_support();
+								$help_and_supports = $this->help_and_support_model->get_help_and_support($user_id);
 								
 								foreach($help_and_supports as $k=>$val)
 								{
@@ -157,6 +157,7 @@ class Help_and_support extends CI_Controller
 							else
 							{		
 								$post_data = $this->input->post();
+								$post_data['user_id'] = $user_id;
 								$new_help_and_support = $this->help_and_support_model->set_help_and_support($post_data);
 								if(!empty($new_help_and_support))
 								{

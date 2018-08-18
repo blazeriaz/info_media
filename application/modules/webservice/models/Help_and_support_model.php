@@ -14,9 +14,10 @@
 		 * @param       NULL
 		 * @return      Array
 		 */
-		public function get_help_and_support(){
+		public function get_help_and_support($user_id){
 			$this->db->select('*');
 			$this->db->from('help_support');
+			$this->db->where('user_id', $user_id);
 			$this->db->where('status', '1');
 			$order_by = 'id';
 			$order_by_ad = 'desc';
@@ -33,6 +34,7 @@
 							'modified' => $date,
 							'title' => $post_data['t'],
 							'support_query' => $post_data['sq'],
+							'user_id' => $post_data['user_id'],
 							'status' => 1
 						);
 			$this->db->insert('help_support',$data);			

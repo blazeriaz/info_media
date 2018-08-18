@@ -39,7 +39,11 @@ class Login extends CI_Controller
 					echo $response = json_encode($result);
 					return TRUE;
 				}
-		  		$this->form_validation->set_rules('un', 'username','trim|required');
+				if(empty($this->input->post('v'))){
+					$this->form_validation->set_rules('un', 'username','trim|required');
+				}else{
+					$this->form_validation->set_rules('un', 'username','trim|required|valid_email');
+				}
 				if(empty($this->input->post('v'))){
 					$this->form_validation->set_rules('pwd', 'password', 'trim|required'); 	
 				}

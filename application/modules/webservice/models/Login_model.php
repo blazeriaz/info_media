@@ -18,12 +18,13 @@
 		function get_user_by_auth($username, $password, $login_type)
 		{ 
 			$this->db->select('*');
-			$where = "(email_id='$username' OR username='$username')";
+			//$where = "(email_id='$username' OR username='$username' OR phone_no='$username')";
+			$where = "(email_id='$username' OR phone_no='$username')";
 			$this->db->where($where);
 			if(empty($login_type)){
 				$this->db->where('password', $password);
 			}
-			$this->db->where('login_type', $login_type);
+			//$this->db->where('login_type', $login_type);
 			$this->db->where('is_email_verified', 1);
 			//$this->db->where('is_active', 1);
 			$this->db->where('status', 1);

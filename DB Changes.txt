@@ -149,5 +149,10 @@ ALTER TABLE `help_support`
 ALTER TABLE `users` ADD `forgot_pwd_token` VARCHAR(255) NOT NULL AFTER `is_deleted`;
 
 
+/*---------------------------------18-08-2018----------------------------------------------*/
+
+ALTER TABLE `help_support` ADD `user_id` INT(11) NOT NULL AFTER `support_query`;
+
+
 
 
