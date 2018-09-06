@@ -59,6 +59,11 @@
 				<li class="<?php if($this->uri->segment(2)=='users')  echo 'active'; ?>">
 					<?php echo anchor(base_url().SITE_ADMIN_URI.'/users','<span class="icon fa fa-users"></span><span class="title" title="Users">Users</span>'); ?>
 				</li>
+				
+				<li class="<?php if($this->uri->segment(2)=='notification')  echo 'active'; ?>">
+					<?php echo anchor(base_url().SITE_ADMIN_URI.'/notification','<span class="icon fa fa-bell"></span><span class="title" title="Notification">Notification</span>'); ?>
+				</li>
+				
 			</ul>
 		</div>
 	</nav>

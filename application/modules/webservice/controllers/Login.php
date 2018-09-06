@@ -119,7 +119,8 @@ class Login extends CI_Controller
 					echo $response = json_encode($result);
 					return TRUE;
 				}
-				$this->form_validation->set_rules('un', 'username','trim|required|is_unique[users.username]');
+				//$this->form_validation->set_rules('un', 'username','trim|required|is_unique[users.username]');
+				$this->form_validation->set_rules('un', 'username','trim|required');
 				$this->form_validation->set_rules('pwd', 'password', 'trim|required'); 
 				$this->form_validation->set_rules('ct', 'mobile', 'trim|required|is_unique[users.phone_no]'); 	
 				$this->form_validation->set_rules('mail', 'email', 'trim|required|valid_email|is_unique[users.email_id]');	
