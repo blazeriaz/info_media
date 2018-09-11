@@ -544,4 +544,65 @@ if ( !function_exists('safe_b64decode'))
         return base64_decode($data);
     }
 }
-
+ 
+if ( !function_exists('push_notification')) 
+{
+	function push_notification($users_id=array())
+	{ 
+		$CI = get_instance();
+		$CI->load->model(array("notification_model"));  
+		$response_master = $CI->notification_model->get_users_list($users_id); 
+	 	foreach($response_master as $response)
+	 	{
+			//$device_token=$response["token"]; 
+			$device_token=$response["fcmt"]; 
+			
+	 		if($device_token!="")
+	 		{
+				$data_arr = $CI->notification_model->get_push_alerts($response["user_id"]);
+				if(count($data_arr)>0)
+				{
+					#API access key from Google API's Console
+					$API_ACCESS_KEY = "AAAA63_ZV0M:APA91bH6Cno_MjfRDqIClPTeNipjkTMhEC9m5MZm6jC0YcRy8ZD7guFW7j_jGy_AHquRTN-b06DrG5UzIWf5zB1CXncO9JMBwDgksXyp5IdCE6l31MVBT2APywFEoJd39Md51_9m2bvv";
+					foreach($data_arr as $data_in)
+					{      
+                        
+						$registrationIds = $device_token;
+						
+						#prep the bundle
+						$msg = array(
+							'body' 	=> $data_in['message'],
+							'title'	=> $data_in['title'],
+							'icon'	=> 'myicon',/*Default Icon*/
+							'sound' => 'mySound'/*Default sound*/
+						);
+						
+						$fields = array(
+							'to'		=> $registrationIds,
+							'notification'	=> $msg
+						);
+					
+						$headers = array(
+							'Authorization: key=' . $API_ACCESS_KEY,
+							'Content-Type: application/json'
+						);
+						#Send Reponse To FireBase Server	
+						$ch = curl_init();
+						curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+						curl_setopt( $ch,CURLOPT_POST, true );
+						curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+						curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+						curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+						curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
+						$result = curl_exec($ch );
+						curl_close( $ch );
+						#Echo Result Of FireBase Server
+						//print_r($result);						
+					} 
+					//insert viewed alerts
+					$CI->notification_model->alert_status($response["user_id"]);
+				} 
+			} 
+		} 
+	} 
+}

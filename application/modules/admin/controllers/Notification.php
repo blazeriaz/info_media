@@ -124,16 +124,44 @@ class Notification extends Admin_Controller
 		$data['post'] = FALSE;
 		$table_name = 'notification';
 		$controller = 'notification';
+		$this->load->model(array("notification_model"));	
 		if ($this->input->server('REQUEST_METHOD') === 'POST'){
 			$data = $this->input->post();	
 			$this->form_validation->set_rules('title', 'Title','trim|required'); 
 			$this->form_validation->set_rules('message', 'Message','trim|required');
+			$this->form_validation->set_rules('send_alert', 'Send Alert','trim|required');
+			if($this->input->post('send_alert')==2){
+				$this->form_validation->set_rules('users[]', 'Users','trim|required');
+			}
 			if ($this->form_validation->run() == True){	
-				$data['created'] = date('Y-m-d h:i:s');
-				$data['modified'] = date('Y-m-d h:i:s');
+				$data_insert['created'] = date('Y-m-d h:i:s');
+				$data_insert['modified'] = date('Y-m-d h:i:s');
+				$data_insert['title'] = $data['title'];
+				$data_insert['message'] = $data['message'];
 				
-				$last_user_id = $this->base_model->insert($table_name, $data);
+				$last_user_id = $this->base_model->insert($table_name, $data_insert);
 				if($last_user_id > 0){
+					$dataArray = array();  
+					$user_lds = array();
+					if($this->input->post('send_alert')==2 && $this->input->post('users')){
+						$user_lds = $this->input->post('users');
+					}
+					$get_users_list = $this->notification_model->get_users_list($user_lds);	
+		            foreach ($get_users_list as $get_user) {
+		                $dataArray[] = array(
+		                    'created' => date('Y-m-d h:i:s'),
+							'modified' => date('Y-m-d h:i:s'),
+							'user_id' => $get_user['user_id'],
+							'notification_id' => $last_user_id,
+							'is_read' => '0'
+		                );
+		            }
+		            if(!empty($dataArray))
+		                $this->base_model->insert_batch('push_alert', $dataArray);
+					 
+					push_notification();
+					//push_notification(array(1,2,3));
+					
 					$this->session->set_flashdata('flash_message', $this->lang->line('New '.$controller.' added successfully'));
 					redirect(base_url().SITE_ADMIN_URI.'/'.$controller);
 				}else{
@@ -142,7 +170,13 @@ class Notification extends Admin_Controller
 			}
 			$data['post'] = TRUE;
 		}
-		
+		$data['users_list']  = array(); 
+		$get_users_list = $this->notification_model->get_users_list();
+		if($get_users_list){
+			foreach($get_users_list as $users){
+				$data['users_list'][$users['user_id']] = $users['email_id'];
+			}
+		}
 		$data['css'] = $data['js'] = array();		
 		//$data['css'][]='assets/themes/css/jquery.datetimepicker.css';
 		$data['js'][]='assets/themes/js/jquery.datetimepicker.full.js';

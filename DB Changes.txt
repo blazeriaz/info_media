@@ -153,6 +153,24 @@ ALTER TABLE `users` ADD `forgot_pwd_token` VARCHAR(255) NOT NULL AFTER `is_delet
 
 ALTER TABLE `help_support` ADD `user_id` INT(11) NOT NULL AFTER `support_query`;
 
+ALTER TABLE `users` CHANGE `fcmt` `fcmt` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+
+CREATE TABLE `push_alert` (
+  `id` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `notification_id` int(11) NOT NULL,
+  `is_read` tinyint(4) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `push_alert`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `push_alert`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 
 
 

@@ -1,5 +1,6 @@
  <!-- Main Content -->
- <?php $controller = 'gallery';?>
+ <link rel="stylesheet" type="text/css" href="<?php echo SITE_URL().'/assets/themes/css/select2.min.css' ?>">
+ <?php $controller = 'notification';?>
 <div class="container-fluid">
     <div class="side-body">
 	<div class="page-title"></div>
@@ -44,11 +45,34 @@
 							</div>
 							
 							<div class="form-group">
-								<?php echo form_label('Message ','message',array('class'=>'col-sm-2 control-label')); ?>
+								<?php echo form_label('Message <span class="required">*</span>','message',array('class'=>'col-sm-2 control-label')); ?>
 								<div class="col-sm-6">
 									<?php echo form_textarea('message',set_value('message'),'placeholder= "Message" class="form-control" id=""'); 
 									if(form_error('message')) echo form_label(form_error('message'), 'message', array("id"=>"message-error" , "class"=>"error")); ?>
 								 </div>
+							</div>
+							
+							<div class="form-group">
+								<?php echo form_label('Send Alert <span class="required">*</span>','send_alert',array('class'=>'col-sm-2 control-label')); ?>
+								<div class="col-sm-6">
+									<?php
+									$js = 'id="send_alert" class="form-control select2"';
+									$send_alert_list = array(1=>'All Users',2=>'Selected Users');
+									echo form_dropdown('send_alert', $send_alert_list,  isset($_POST['send_alert'])?$_POST['send_alert']:'', $js);
+									if(form_error('send_alert')) echo form_label(form_error('send_alert'), 'send_alert',array("id"=>"send_alert-error" , "class"=>"error"));
+									?>
+								</div>
+							</div>
+							
+							<div class="form-group select_users">
+								<?php echo form_label('Select Users <span class="required">*</span>','users',array('class'=>'col-sm-2 control-label')); ?>
+								<div class="col-sm-6">
+									<?php
+									$js = 'id="users" class="form-control select2" multiple';
+									echo form_dropdown('users[]', $users_list,  isset($_POST['users'])?$_POST['users']:'', $js);
+									if(form_error('users[]')) echo form_label(form_error('users[]'), 'users',array("id"=>"users-error" , "class"=>"error"));
+									?>
+								</div>
 							</div>
 							
                             <div class="form-group">
@@ -63,6 +87,7 @@
         </div>
     </div>
 </div>
+<script type='text/javascript' src='<?php echo SITE_URL().'/assets/themes/js/select2.full.min.js' ?>'></script>
 <script>
 jQuery(window).load(function(){
 	var div = ".error:first";
@@ -90,5 +115,36 @@ jQuery(window).load(function(){
 			}
 		});
 	}
+	$('#send_alert').on('change',function(){
+		if($(this).val()==1){
+			$(".select_users").css("display","none");
+		}
+		if($(this).val()==2){
+			$(".select_users").css("display","block");
+		}
+	});
+	if($(".select2").length){
+		$(".select2").select2({		
+			placeholder: 'Select an option'
+		});
+	}
+	<?php
+		if(isset($_POST['send_alert'])){
+			if($_POST['send_alert']==1){
+			?>
+				$(".select_users").css("display","none");
+			<?php
+			}
+			if($_POST['send_alert']==2){
+			?>
+				$(".select_users").css("display","block");
+			<?php
+			}
+		}else{
+		?>
+			$(".select_users").css("display","none");
+		<?php
+		}
+	?>
 });
 </script>
