@@ -519,6 +519,107 @@ class Login extends CI_Controller
 			}
 		}
 		
+		
+		/**
+		* Profile
+		*
+		* @param       POST
+		* @return      JSON
+		*/
+		public function profile_update()
+		{
+			if ($this->input->server('REQUEST_METHOD') === 'POST')
+			{
+				$token =$this->input->get_request_header('authorization', TRUE);
+				if($token)
+				{
+					$exist_token = $this->login_model->get_user_by_token($token);
+					if(!$exist_token){
+						$result = array( 'ST'=> 0 , 'MSG'=> 'authorization not matched' ) ;  
+						echo $response = json_encode($result);
+						return TRUE;
+					}
+				}
+				else{
+					$result = array( 'ST'=> 0 , 'MSG'=> 'authorization required' ) ;  
+					echo $response = json_encode($result);
+					return TRUE;
+				}
+				
+				if (!$this->input->post()){
+					$error = array(			
+									"un" => "Please enter the username",
+									//"pwd" => "Please enter the password",
+									"ct" => "Please enter the mobile",
+									"mail" => "Please enter the email",
+									"addr" => "Please enter the city",
+									"stat" => "Please enter the state",
+									//"t" => "Please enter the type",
+									//"fcmt" => "Please enter the fcmt",
+								);
+					$MSG = implode("<br>",$error);
+					$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
+					echo $response = json_encode($result);
+					return TRUE;
+				}
+				
+				$user_datas = $this->login_model->get_user_by_token($token);
+				if($this->input->post('mail') != $user_datas['email_id']){
+					$is_email =  '|is_unique[users.email_id]' ;
+				}else{
+					$is_email =  '' ;
+				}
+				if($this->input->post('ct') != $user_datas['phone_no']){
+					$is_mobile =  '|is_unique[users.phone_no]' ;
+				}else{
+					$is_mobile =  '' ;
+				}
+				$this->form_validation->set_rules('un', 'username','trim|required');
+				//$this->form_validation->set_rules('pwd', 'password', 'trim|required'); 
+				$this->form_validation->set_rules('ct', 'mobile', 'trim|required'.$is_mobile); 	
+				$this->form_validation->set_rules('mail', 'email', 'trim|required|valid_email'.$is_email);	
+				$this->form_validation->set_rules('addr', 'city', 'trim|required');	
+				$this->form_validation->set_rules('stat', 'state', 'trim|required');	
+				//$this->form_validation->set_rules('t', 'type', 'trim|required');	 	
+				//$this->form_validation->set_rules('fcmt', 'fcmt', 'trim|required');		
+				
+				if ($this->form_validation->run())
+				{
+					$username = $this->input->post('un');
+					//$password = $this->input->post('pwd');
+					$mobile = $this->input->post('ct');
+					$email = $this->input->post('mail');
+					$city = $this->input->post('addr');
+					$state = $this->input->post('stat');
+					//$type = $this->input->post('t');
+					//$fcmt = $this->input->post('fcmt');
+					
+					$update = $this->login_model->update_user($user_datas['id']);
+					if($update)
+					{
+						$result = array( 'ST'=> 1 , 'MSG'=> 'Profile Updated Successfully' );
+					}
+					else
+					{
+						$result = array( 'ST'=> 0 , 'MSG'=> 'Error while updating profile' );
+					}
+									
+				}
+				else
+				{
+					$error = $this->form_validation->error_array();
+					$MSG = implode("<br>",$error);
+					$result = array( 'ST'=> 0 , 'MSG'=> $MSG);
+				}
+			}
+			else
+			{
+				$result = array( 'ST'=> 0 , 'MSG'=> 'method does not post' ) ;  
+			}
+			echo $response = json_encode($result);
+			return TRUE;
+		}
+		
 		function __encrip_password($password) {
 			return md5($password);
 		}	

@@ -208,18 +208,18 @@
 			return $insert_id;
 		}
 		
-		public function update_user()
+		public function update_user($user_id)
 		{
 			$data = array(
-							'modified' => date('Y-m-d H:i:s'),				
-							'name' => $name,
-							'profile_image' => $received_image_name,
-							'phone_no' => $contact_number,
-							'country' => $country,
-							'state' => $state,
-							'city' => $city,
-							'gender' => $gender,
-							'unit_type' => $unit_type
+							'modified' => date('Y-m-d H:i:s'),
+							'email_id' => $this->input->post('mail'),
+						  	//'password' => md5($this->input->post('pwd')),
+							'username' => $this->input->post('un'),
+							'phone_no' => $this->input->post('ct'),
+							//'country' => $this->input->post('country'),
+							'state' => $this->input->post('stat'),
+							'city' => $this->input->post('addr'),
+							//'fcmt' => $this->input->post('fcmt'),
 						);
 			$this->db->where('id',$user_id);		
 			return $this->db->update('users', $data);

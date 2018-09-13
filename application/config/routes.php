@@ -84,9 +84,12 @@ $route['webservice/course_video'] = 'webservice/course_video/index';
 $route['webservice/gallery'] = 'webservice/gallery/index';
 $route['webservice/profile'] = 'webservice/profile/index';
 $route['webservice/update_fcmt'] = 'webservice/profile/update_fcmt';
+$route['webservice/profile-update'] = 'webservice/login/profile_update';
 
 $route['webservice/new_help_support_query'] = 'webservice/help_and_support/new_help_support_query';
 $route['webservice/help_and_support'] = 'webservice/help_and_support/index';
+
+$route['webservice/notification'] = 'webservice/notification/index';
 
 $route['webservice/device_token'] = 'webservice/login/device_token';
 $route['webservice/dashboard'] = 'webservice/dashboard';
