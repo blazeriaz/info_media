@@ -26,4 +26,16 @@
 			return $query->result_array();	
 		}
 		
+		/**
+		 * get total rows from department table
+		 *
+		 * @param       NULL
+		 * @return      Array
+		 */
+		public function add_course_video_count($course_video_id){
+			$this->db->set('view_count', 'view_count+1', FALSE);
+			$this->db->where('id',$course_video_id);			
+			return $this->db->update('course_video');
+		}
+		
 	}

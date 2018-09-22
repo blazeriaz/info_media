@@ -579,7 +579,8 @@ if ( !function_exists('push_notification'))
 						
 						$fields = array(
 							'to'		=> $registrationIds,
-							'notification'	=> $msg
+							'notification'	=> $msg,
+							'data'	=> array('body' => $data_in['message'],'title' => $data_in['title'],)
 						);
 					
 						$headers = array(

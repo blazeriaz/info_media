@@ -80,6 +80,7 @@ $route['webservice/action_reset_password'] = 'webservice/login/action_reset_pass
 $route['webservice/department'] = 'webservice/department/index';
 $route['webservice/courses'] = 'webservice/courses/index';
 $route['webservice/course_video'] = 'webservice/course_video/index';
+$route['webservice/course-video/add-view-count'] = 'webservice/course_video/add_view_count';
 
 $route['webservice/gallery'] = 'webservice/gallery/index';
 $route['webservice/profile'] = 'webservice/profile/index';

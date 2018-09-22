@@ -462,7 +462,8 @@ a:hover {
 .card.summary-inline .card-body {
   padding: 20px; }
   .card.summary-inline .card-body .content {
-    float: right; }
+    //float: right; 
+  }
     .card.summary-inline .card-body .content .title {
       font-family: 'Lato', sans-serif;
       margin-top: -0.3em;
@@ -1513,4 +1514,7 @@ display:none;
     height: 60px;
     margin: 0 auto;
     display: block;
+}
+.card.blue.summary-inline{
+	text-align: center;
 }

@@ -63,6 +63,14 @@ class Admin extends Admin_Controller
 					if(!$this->session->has_userdata('admin_is_logged_in')){
 						redirect(SITE_ADMIN_URI);
 			  		} 		
+					$data = array();
+					
+					$table_name = 'course_video';
+					$join_tables = $where = array(); 
+					$where[] = array( TRUE, 'status', 1);
+					$fields = 'sum(view_count) as total_view_count'; 
+					$cource_video_view_count = $this->base_model->get_advance_list($table_name, $join_tables, $fields, $where, 'row_array');
+					$data['cource_video_view_count'] = $cource_video_view_count['total_view_count'];
 					
 					$data['main_content'] = 'admin/dashboard';
 				  	$data['page_title']  = 'Admin Dashboard';
