@@ -44,7 +44,7 @@
                                 <div class="col-sm-4">
 									<?php
 									if($this->input->post('name')){ $f_name = $this->input->post('name'); }else if($results['name']){ $f_name = $results['name']; }else{ $f_name =''; }
-									echo form_input('name', $f_name,'placeholder= "Name" class="form-control alphaOnly" id="name"'); 
+									echo form_input('name', $f_name,'placeholder= "Name" class="form-control" id="name"'); 
                    					if(form_error('name')) echo form_label(form_error('name'), 'name', array("id"=>"name-error" , "class"=>"error")); ?>
                                 </div>
 							</div>

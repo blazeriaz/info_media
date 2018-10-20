@@ -65,6 +65,7 @@
 								<th>Created</th>
                                 <th>Name</th>
                                 <th>Course</th>
+								<th>Count</th>
                                 <th>Subscription</th>
 								<th>Status</th>
 
@@ -86,6 +87,7 @@
 										echo date( ADMIN_DATE_FORMAT, strtotime($res['created']));?></td>
 										<td><?php $name= $res['name']; echo (strlen($name)>30?substr($name,0,30)."...":$name) ;?></td>
 										<td><?php $course= $res['course']; echo (strlen($course)>30?substr($course,0,30)."...":$course) ;?></td>
+										<td><?php echo $res['view_count']; ?></td>
 										<td><?php echo $this->config->item('subscription')[$res['subscription']]; ?></td>
 										<td>
 											<?php if($res['status'] ==1){?>

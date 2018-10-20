@@ -134,7 +134,7 @@ class Cities extends Admin_Controller
 		$data['post'] = FALSE;
 		if ($this->input->server('REQUEST_METHOD') === 'POST')
 		{
-	      	$this->form_validation->set_rules('name', 'Name', 'trim|required|callback_alpha_space|max_length[35]|callback_validate_city_name[Name]');
+	      	$this->form_validation->set_rules('name', 'Name', 'trim|required|max_length[35]|callback_validate_city_name[Name]');
 			//$this->form_validation->set_rules('city_code', 'City Code','trim|required|max_length[35]|callback_validate_city_code[City Code]');
 			$this->form_validation->set_rules('state_id', 'State','trim|callback_validate_select[State]');
 			
@@ -198,7 +198,7 @@ class Cities extends Admin_Controller
 			} else {
 				$is_unique_code =  '' ;
 			}
-	      	$this->form_validation->set_rules('name', 'Name', 'trim|required|callback_alpha_space|max_length[35]'.$is_unique_name);
+	      	$this->form_validation->set_rules('name', 'Name', 'trim|required|max_length[35]'.$is_unique_name);
 			//$this->form_validation->set_rules('city_code', 'City Code','trim|required|max_length[35]'.$is_unique_code);
 			$this->form_validation->set_rules('state_id', 'Country','trim|callback_validate_select[Country]');
 

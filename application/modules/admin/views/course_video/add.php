@@ -38,7 +38,7 @@
 							<div class="form-group">
                             	<?php echo form_label('Name <span class="required">*</span>','name',array('class'=>'col-sm-2 control-label')); ?>
                                 <div class="col-sm-4">
-									<?php echo form_input('name',set_value('name'),'placeholder= "Name" class="form-control alphaOnly" id="name"'); 
+									<?php echo form_input('name',set_value('name'),'placeholder= "Name" class="form-control" id="name"'); 
                    					if(form_error('name')) echo form_label(form_error('name'), 'name', array("id"=>"name-error" , "class"=>"error")); ?>
                                 </div>
 							</div>
